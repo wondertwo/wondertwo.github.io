@@ -1,0 +1,818 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="编译原理,正则表达式," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这篇博客的主题是总结正则表达式的基础知识，其中基础原理部分主要是根据这篇博客的内容记进行整理，博客所述内容与中科大华保健老师在《编译原理》课程中相关章节一致，主要就是剥开正则表达式的语法糖，解释了正则表达式最本质的原理。接着会结合多个正则表达式的使用实例进行解释。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译原理笔记（三）：正则表达式基础">
+<meta property="og:url" content="http://yoursite.com/2017/05/16/编译原理-正则表达式/index.html">
+<meta property="og:site_name" content="WONDER'TWO">
+<meta property="og:description" content="这篇博客的主题是总结正则表达式的基础知识，其中基础原理部分主要是根据这篇博客的内容记进行整理，博客所述内容与中科大华保健老师在《编译原理》课程中相关章节一致，主要就是剥开正则表达式的语法糖，解释了正则表达式最本质的原理。接着会结合多个正则表达式的使用实例进行解释。">
+<meta property="og:image" content="http://on1xkrize.bkt.clouddn.com/cover4.jpg">
+<meta property="og:updated_time" content="2017-05-16T15:45:10.751Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="编译原理笔记（三）：正则表达式基础">
+<meta name="twitter:description" content="这篇博客的主题是总结正则表达式的基础知识，其中基础原理部分主要是根据这篇博客的内容记进行整理，博客所述内容与中科大华保健老师在《编译原理》课程中相关章节一致，主要就是剥开正则表达式的语法糖，解释了正则表达式最本质的原理。接着会结合多个正则表达式的使用实例进行解释。">
+<meta name="twitter:image" content="http://on1xkrize.bkt.clouddn.com/cover4.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'WonderTwo[@布鲁克林一棵树]'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/16/编译原理-正则表达式/"/>
+
+
+
+
+
+  <title> 编译原理笔记（三）：正则表达式基础 | WONDER'TWO </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0af291142256bedaa2172682f765d1c7";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WONDER'TWO</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">好看的皮囊千篇一律，有趣的人格万里挑一！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            博客首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            博客归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            文章标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            博客分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于博主
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/16/编译原理-正则表达式/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="布鲁克林一棵树">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="WONDER'TWO">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="WONDER'TWO" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                编译原理笔记（三）：正则表达式基础
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-16T13:14:20+08:00">
+                2017-05-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机基础知识/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机基础知识</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://on1xkrize.bkt.clouddn.com/cover4.jpg" alt=""></p>
+<p>这篇博客的主题是总结正则表达式的基础知识，其中基础原理部分主要是根据<a href="http://blog.csdn.net/mybc724/article/details/45956057" target="_blank" rel="external">这篇博客</a>的内容记进行整理，博客所述内容与中科大华保健老师在《编译原理》课程中相关章节一致，主要就是剥开正则表达式的语法糖，解释了正则表达式最本质的原理。接着会结合多个正则表达式的使用实例进行解释。</p>
+<a id="more"></a>
+<h2 id="语法糖概念"><a href="#语法糖概念" class="headerlink" title="语法糖概念"></a>语法糖概念</h2><p>在上面提到了语法糖的概念，也许有人还不清楚语法糖是什么东西，这里简单的说一下。</p>
+<p>语法糖（Syntactic sugar），也译为糖衣语法，是由英国计算机科学家彼得·约翰·兰达（Peter J. Landin）发明的一个术语，指计算机语言中添加的某种语法，这种语法对语言的功能并没有影响，但是更方便程序员使用。通常来说使用语法糖能够增加程序的可读性，从而减少程序代码出错的机会。</p>
+<p>可以这么说吧，像C、C++、Java等等这些编程语言都可以看做成语法糖，因为最终还是得将这些高级程序语言翻译成机器代码，也就是10101……这样的形式，要知道所有的可执行程序最终都可以只需要赋值和跳转两种结构即可，而高级语言都是对这两种结构的封装，来适应不同的应用场景，除了机器代码，汇编和这些高级语言都是语法糖，一层一层的包装，达到简化开发的目的，大家想想，如果没有这些语法糖，那我们岂不是得天天用机器代码写程序？</p>
+<h2 id="算数表达式"><a href="#算数表达式" class="headerlink" title="算数表达式"></a>算数表达式</h2><p>这里先引入一个小小的例子，我想在阅读这篇文章的人都知道什么是算数表达式，最基本的算数表达式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">1,2,3,4,5,6,7,8,9,0，……</div><div class="line">+，-，*，/，……</div></pre></td></tr></table></figure>
+<p>这些都是最基本的算数表达式，而由这些最基本的算数表达式可以构造出更加复杂的复合表达式比如<code>1+1</code>，<code>3*5</code>等等，无论是基本的还是复合的，它们都是算数表达式，通过这个例子，来自然的过渡到下面正则表达式的内容，其实本质上算数表达式和正则表达式的道理是差不多的。</p>
+<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p>构成正则表达式最基本的就是给定的字符集<code>∑={c1,c2,c3,……,cn}</code>，这就相当于算数表达式中的<code>0,1,2,3……</code>这些基本算数表达式。<br>接下来呢，就是他的归纳定义，来告诉我们如何通过最基本的字符集构造出复杂的正则表达式：</p>
+<ul>
+<li>空串ε是正则表达式。</li>
+<li>对于任意字符<code>c∈∑</code>，<code>c</code>是正则表达式。</li>
+<li>如果M,N是正则表达式，则以下也是正则表达式：<ul>
+<li>选择 <code>M|N = {M,N}</code></li>
+<li>连接 <code>MN = {mn | m∈M, n∈N}</code> </li>
+<li>闭包 <code>M* = {ε,M,MM,MMM,……}</code></li>
+</ul>
+</li>
+</ul>
+<p>不难看出，以上的归纳定义给出了正则表达式最基本的的形式，无论多么复杂的正则表达式都是在这个基础上构成的。现在我们通过一个小例子来加深对上面概念的理解。</p>
+<h2 id="具体使用示例"><a href="#具体使用示例" class="headerlink" title="具体使用示例"></a>具体使用示例</h2><p>给定一个字符集<code>∑={a,b}</code>，可以写出那些正则表达式呢？</p>
+<ol>
+<li>ε</li>
+<li>a,b</li>
+<li>ε|ε,ε| a , ε| b ,……</li>
+<li>εa , εb , ab , εε , ……</li>
+<li>a(ε| a) , b(ε|b),……</li>
+<li>ε<em> , (a(ε| a))</em>,……</li>
+<li>……</li>
+</ol>
+<p>也就是说，单个的字符都是正则表达式，它们按照上面的定义组合起来依然是正则表达式，正则表达式与正则表达式相互组合又可以生成新的正则表达式，在复杂的正则表达式都是由这些基本的正则表达式构成，当然了上面这些只是该字符集的正则表达式的一小部分，因为这个字符集的正则表达式集合是一个无限集，到这里，我想大家应该有所体会。</p>
+<p>我们再来看一个例子</p>
+<p>我们用上面的正则表达式的概念来构造出用来描述C语言标识符的正则表达式：<br>首先给定字符集，我们都知道C语言的字符集有ASCII码构成。<br>C语言标识符的格式：以字母或下划线开头，后面跟零个或多个字母、数字或下划线。</p>
+<p>该怎么用正则表达式来描述呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(a|b|c|……|z|A|B|C|……|Z|_)(a|b|c|……|z|A|B|C|……|Z|0|1|2|3|……|9|_))*</div></pre></td></tr></table></figure>
+<p>首先来看，这个正则表达式是由两个子表达式连接而成，每个子表达式都是用选择符|构成，又因为第二个子表达式可以出现零或多次，所以加上闭包。</p>
+<p>C语言中无符号整型数（十进制整数）的定义规则是：或者是0，或者是1到9开头，后跟0个或多个0到9之间的数字。</p>
+<p>如何用正则表达式来表示呢？还是跟上面一样，分为开头和后面两个部分来看。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(0|1|..|9)(0|1|..|9)*  语法糖表示 (0|[1-9])[0-9]* --&gt; 0|([1-9][0-9]*)</div></pre></td></tr></table></figure>
+<p>写一个正则表达式，表达C语言中的浮点数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[(+|-)?]([0-9]&#123;0,8&#125;&quot;\.&quot;[0-9]&#123;1,24&#125;) 不确定是否正确</div></pre></td></tr></table></figure>
+<p>是不是看的脑袋都大了，是不是觉得平时什么时候这么写过正则表达式，下面就得说说语法糖的作用啦。</p>
+<h2 id="正则表达式语法糖"><a href="#正则表达式语法糖" class="headerlink" title="正则表达式语法糖"></a>正则表达式语法糖</h2><p>大家接触到的正则表达式的语法似乎是有差异的，比如POSIX风格正则表达式和Perl风格正则表达式，要知道无论什么风格的正则表达式它们背后的原理都是一样的，只是在上层提供的语法糖不一样而已，实际应用的过程中都是根据上面的原理演变过来的，语法糖可以大大简化正则表达式的形式，变得更容易阅读和理解，就像下面的对应关系一样。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[c1-cn] 表示 c1|c2|c3|……|cn</div><div class="line">e? 表示 零个或一个e，也即ε|e</div><div class="line">e+ 表示 一个或多个e</div><div class="line">e&#123;i,j&#125; 表示 i到j个e连接</div><div class="line">. 表示 除‘\n’以外的任意字符</div><div class="line">&quot;a*&quot; 表示 a*自身，不是a的kleen闭包</div></pre></td></tr></table></figure>
+<p>这里就不一一举例了，无论上面的对应关系中左边的语法如何变化，它所对应的右边的基本原理都是一样的。正则表达式可以写的非常复杂，复杂到除了作者外很少有人看的懂的，曾经我也是一度不能自拔，但随着学习的深入，慢慢的发现，剥开正则表达式表面的东西，去看背后的原理，才有一种恍然大悟的感觉。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/编译原理/" rel="tag"># 编译原理</a>
+          
+            <a href="/tags/正则表达式/" rel="tag"># 正则表达式</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/15/编译原理-词法分析/" rel="next" title="编译原理笔记（二）：词法分析">
+                <i class="fa fa-chevron-left"></i> 编译原理笔记（二）：词法分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/19/编译原理-SUML_TO_STACKL/" rel="prev" title="C++实现SUML到STACKL微型简易编译器">
+                C++实现SUML到STACKL微型简易编译器 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="布鲁克林一棵树" />
+          <p class="site-author-name" itemprop="name">布鲁克林一棵树</p>
+           
+              <p class="site-description motion-element" itemprop="description">我是集市里的拾荒者，不看路人，不换爱人！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">博客</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="mailto:wondertwo1@163.com" target="_blank" title="邮箱 wondertwo1@163.com">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  邮箱 wondertwo1@163.com
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wondertwo" target="_blank" title="布鲁克林一棵树—>GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  布鲁克林一棵树—>GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/5182488533" target="_blank" title="布鲁克林一棵树—>微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  布鲁克林一棵树—>微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/wondertwo/" target="_blank" title="布鲁克林一棵树—>博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  布鲁克林一棵树—>博客园
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/8f34ca2bf35e" target="_blank" title="布鲁克林一棵树—>简书">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  布鲁克林一棵树—>简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#语法糖概念"><span class="nav-number">1.</span> <span class="nav-text">语法糖概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算数表达式"><span class="nav-number">2.</span> <span class="nav-text">算数表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达式"><span class="nav-number">3.</span> <span class="nav-text">正则表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具体使用示例"><span class="nav-number">4.</span> <span class="nav-text">具体使用示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达式语法糖"><span class="nav-number">5.</span> <span class="nav-text">正则表达式语法糖</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">布鲁克林一棵树</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

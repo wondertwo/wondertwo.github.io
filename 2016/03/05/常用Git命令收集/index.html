@@ -1,0 +1,1004 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="原创博客,Git,Github," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="根据网络资源进行整理，记录的比较详细方便自己日后查看。以下列举的命令可以在项目目录打开GitBash使用，也可以在AndroidStudio或者IntelliJ等支持Git的IDE中使用。
+
+
+基础概念Repositiry在版本管理中，Repository翻译过来就是仓库的意思，每个提交到本地，或者PUSH到远程服务器的 Project，被 Github以数据结构的形式保存，而这个数据结构被称为">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git时间：常用Git命令收集整理（持续更新）">
+<meta property="og:url" content="http://yoursite.com/2016/03/05/常用Git命令收集/index.html">
+<meta property="og:site_name" content="WONDER'TWO">
+<meta property="og:description" content="根据网络资源进行整理，记录的比较详细方便自己日后查看。以下列举的命令可以在项目目录打开GitBash使用，也可以在AndroidStudio或者IntelliJ等支持Git的IDE中使用。
+
+
+基础概念Repositiry在版本管理中，Repository翻译过来就是仓库的意思，每个提交到本地，或者PUSH到远程服务器的 Project，被 Github以数据结构的形式保存，而这个数据结构被称为">
+<meta property="og:image" content="http://7xt4h7.com1.z0.glb.clouddn.com/git-icon.jpg">
+<meta property="og:image" content="http://7xt4h7.com1.z0.glb.clouddn.com/repository.png">
+<meta property="og:image" content="http://7xt4h7.com1.z0.glb.clouddn.com/HEAD.jpg">
+<meta property="og:image" content="http://7xt4h7.com1.z0.glb.clouddn.com/branch.png">
+<meta property="og:image" content="http://7xt4h7.com1.z0.glb.clouddn.com/merge&rebase.png">
+<meta property="og:image" content="http://7xt4h7.com1.z0.glb.clouddn.com/%E8%A1%8D%E5%90%88%E4%B8%80.png">
+<meta property="og:image" content="http://7xt4h7.com1.z0.glb.clouddn.com/%E8%A1%8D%E5%90%88%E4%BA%8C.png">
+<meta property="og:image" content="http://7xt4h7.com1.z0.glb.clouddn.com/%E8%A1%8D%E5%90%88%E4%B8%89.png">
+<meta property="og:updated_time" content="2017-03-05T15:32:32.244Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git时间：常用Git命令收集整理（持续更新）">
+<meta name="twitter:description" content="根据网络资源进行整理，记录的比较详细方便自己日后查看。以下列举的命令可以在项目目录打开GitBash使用，也可以在AndroidStudio或者IntelliJ等支持Git的IDE中使用。
+
+
+基础概念Repositiry在版本管理中，Repository翻译过来就是仓库的意思，每个提交到本地，或者PUSH到远程服务器的 Project，被 Github以数据结构的形式保存，而这个数据结构被称为">
+<meta name="twitter:image" content="http://7xt4h7.com1.z0.glb.clouddn.com/git-icon.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'WonderTwo[@布鲁克林一棵树]'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/03/05/常用Git命令收集/"/>
+
+
+
+
+
+  <title> Git时间：常用Git命令收集整理（持续更新） | WONDER'TWO </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0af291142256bedaa2172682f765d1c7";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WONDER'TWO</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">好看的皮囊千篇一律，有趣的人格万里挑一！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            博客首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            博客归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            文章标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            博客分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于博主
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/05/常用Git命令收集/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="布鲁克林一棵树">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="WONDER'TWO">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="WONDER'TWO" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Git时间：常用Git命令收集整理（持续更新）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-05T11:11:11+08:00">
+                2016-03-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机基础知识/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机基础知识</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>根据网络资源进行整理，记录的比较详细方便自己日后查看。以下列举的命令可以在项目目录打开GitBash使用，也可以在AndroidStudio或者IntelliJ等支持Git的IDE中使用。</p>
+<p><img src="http://7xt4h7.com1.z0.glb.clouddn.com/git-icon.jpg" alt=""></p>
+<hr>
+<h3 id="基础概念Repositiry"><a href="#基础概念Repositiry" class="headerlink" title="基础概念Repositiry"></a>基础概念Repositiry</h3><p>在版本管理中，Repository翻译过来就是仓库的意思，每个提交到本地，或者PUSH到远程服务器的 Project，被 Github以数据结构的形式保存，而这个数据结构被称为 Repository 即仓库。</p>
+<a id="more"></a>
+<p><img src="http://7xt4h7.com1.z0.glb.clouddn.com/repository.png" alt="repository"></p>
+<hr>
+<h3 id="配置用户信息（config命令）"><a href="#配置用户信息（config命令）" class="headerlink" title="配置用户信息（config命令）"></a>配置用户信息（config命令）</h3><p>配置个人用户名和邮件地址，每次 Git 提交时都会引用这两条信息，说明是谁提交了更新</p>
+<pre><code>$ git config --global user.name “youname”
+$ git config --global user.email “12345@example.com”
+</code></pre><p>如果用了 <code>--global</code> 选项，那么更改的配置文件位于你用户主目录下，以后所有项目都默认使用这里配置的用户信息。如果要在某个特定项目中使用其他名字或者电邮，只要去掉 <code>--global</code> 选项重新配置即可，新设定保存在当前项目的 <code>/.git/config</code> 文件里。</p>
+<p>命令输入的自动补全功能，输入命令后按tab键，就会看到列出所有匹配的可用命令建议：</p>
+<pre><code>$ git co&lt;tab&gt;
+</code></pre><hr>
+<h3 id="提交（commit）推送（push）与拉取（pull）"><a href="#提交（commit）推送（push）与拉取（pull）" class="headerlink" title="提交（commit）推送（push）与拉取（pull）"></a>提交（commit）推送（push）与拉取（pull）</h3><p>初始化一个本地仓库：</p>
+<pre><code>$ git init
+</code></pre><p>初始化后，在当前目录下会出现一个名为 .git 的目录，所有 Git 需要的数据和资源都存放在这个目录中。不过目前，仅仅是按照既有的结构框架初始化好了里边所有的文件和目录，但我们还没有开始跟踪管理项目中的任何一个文件</p>
+<pre><code>$ git init –-bare   
+</code></pre><p>初始化加上–bare参数后会建立一个以分享/分布式开发为目的的纯粹服务器仓储，而 <code>git init</code> 或者 <code>git clone</code> 都是建立（或拷贝）一个本地的开发工作目录。</p>
+<p>如果当前目录下有几个文件想要纳入版本控制，需要先用 <code>git add</code> 命令对这些文件进行跟踪，然后提交：<br>跟踪文件：（将文件加到暂存区域）</p>
+<pre><code>$ git add &lt;filename&gt;
+</code></pre><p>跟踪全部文件：</p>
+<pre><code>$ git add .
+</code></pre><p>提交(commit)更新：通过commit命令提交至本地仓库中，每一次commit都意味着版本在进行一次更新。</p>
+<pre><code>$ git commit -m &quot;commit-desc&quot;
+</code></pre><p>注意commit只是将修改提交到本地的仓库，并没有更新服务器。<br>如果觉得暂存区繁琐，<code>$ git commit -a</code> 命令会自动把所有已经跟踪的文件暂存起来一并提交，从而省略 <code>git add</code> 步骤。</p>
+<p>移除文件:(remove)，只能移除一个文件</p>
+<pre><code>$ git rm &lt;filename&gt;
+</code></pre><p>如果需要移除 abc 目录下的所有文件，则可以用递归移除命令，加 -m 参数，如下：</p>
+<pre><code>$ git rm -m abc/*
+</code></pre><p>重命名文件:(rename)</p>
+<pre><code>$ git mv oldname.txt newname.txt
+</code></pre><p>推送（PUSH）数据到仓库：</p>
+<pre><code>$ git push [remote-name] [branch-name]
+</code></pre><p>比如，将本地[master]分支推送（push）到Github服务器[origin]分支（说明下：克隆操作会自动使用默认的master 和origin 名字），可以运行下面的命令：</p>
+<pre><code>$ git push origin master
+</code></pre><p>获取远程分支的最新版本（修改）到本地有两种方式：</p>
+<pre><code>$ git pull &lt;remote-name&gt;
+</code></pre><p>从远程获取最新版本到地，并且会自动merge！</p>
+<pre><code>$ git fetch &lt;remote-name&gt;
+</code></pre><p>从远程获取最新版本到地，不会自动merge，并且 <code>$ git fetch</code> 可得到远程代码仓库中本地没有的分支</p>
+<hr>
+<h3 id="添加与克隆远程仓库"><a href="#添加与克隆远程仓库" class="headerlink" title="添加与克隆远程仓库"></a>添加与克隆远程仓库</h3><p>把仓库从远程服务器克隆到本地：（三种方式）</p>
+<pre><code>$ git clone git://github.com/youname/project.git
+$ git clone git@github.com:youname/project.git
+$ git clone https://github.com/youname/project.git
+</code></pre><p>这时可以使用 <code>ls -al</code> 命令查看目录文件列表，命令如下：</p>
+<pre><code>$ ls -al
+</code></pre><p>/.git目录： 把仓库克隆到本地后在工作目录下会有一个默认隐藏的 .git目录，就是Git仓库。其中存放的是我们所提交的文档索引内容，Git基于文档索引内容对其所管理的文档进行内容追踪，从而实现文档的版本控制。.git目录位于工作目录内。</p>
+<p>创建 [.gitignore] 文件:</p>
+<pre><code>$ touch .gitignore
+</code></pre><p>/.gitignore文件用于配置git忽略文件规则。项目中有很多文件不必使用git管理，例如Eclipse或其他IDE生成的项目文件，编译生成的各种目标或临时文件等。使用git status时，会在Untracked files里面看到这些文件列表。在文件.gitignore中配置规则来告诉git把这些文件忽略。支持通配符，例如:</p>
+<pre><code>*.a           #忽略所有以.a为后缀的文件; 
+!lib.a        #不忽略文件lib.a;  
+/TODO         #只忽略此目录下TODO文件,子目录的TODO不被忽略; 
+build/        #忽略build目录下的所有文件;  
+doc/*.txt     #只忽略doc/下所有的txt文件,但是不忽略doc/subdir/下的txt文件   
+</code></pre><p>对于已经加入到索引的应该忽略的文件，使用命令将要忽略的文件从索引中删除：</p>
+<pre><code>$ git rm --cached filename
+</code></pre><p>或者 </p>
+<pre><code>$ git update-index --force-remove foo.class
+</code></pre><p>向远程服务器添加仓库：（远程仓库必须先在github上建好）</p>
+<pre><code>$ git remote add [shortname] [url]    
+</code></pre><p>例如：<code>$ git remote add origin git@github.com:youname/yourRepo.git</code></p>
+<p>碰到远端仓库服务器迁移，或者原来的克隆镜像不再使用，又或者某个参与者不再贡献代码，那么需要移除对应的远端仓库</p>
+<p>远程仓库的删除：</p>
+<pre><code>$ git remote rm &lt;repo-name&gt;
+</code></pre><p>远程仓库重命名，从<from-name>重命名为<to-name>：</to-name></from-name></p>
+<pre><code>$ git remote rename &lt;from-name&gt; &lt;to-name&gt;
+</code></pre><hr>
+<h3 id="状态（status）和日志（log）"><a href="#状态（status）和日志（log）" class="headerlink" title="状态（status）和日志（log）"></a>状态（status）和日志（log）</h3><p>查看配置信息：查看已有的配置信息</p>
+<pre><code>$ git config --list
+$ git config -l
+</code></pre><p>获取帮助：例如想获取config命令的帮助信息</p>
+<pre><code>$ git help config 
+$ git config --help
+</code></pre><p>检查当前文件状态：</p>
+<pre><code>$ git status
+</code></pre><p>查看提交日志：（默认不使用任何参数，会按时间列出所有更新，最近的更新排在最上面）</p>
+<pre><code>$ git log
+</code></pre><p>我们常用 -p 命令展开显示每次提交的内容差异，用 -2 命令则仅显示最近两次更新：</p>
+<pre><code>$ git log -p -2
+</code></pre><p>另外 –stat 命令仅简要的显示文件增改行数统计，每个提交都列出了修改过的文件，以及其中添加和移除的行数，并在最后列出所有增减行数小计：</p>
+<pre><code>$ git log --stat
+</code></pre><p>另外 –author 命令仅显示指定作者相关的提交：（查找 author 提交的版本）</p>
+<pre><code>$ git log  --author=author
+</code></pre><hr>
+<h3 id="查看HEAD信息"><a href="#查看HEAD信息" class="headerlink" title="查看HEAD信息"></a>查看HEAD信息</h3><p>HEAD可以理解为一个指针，每次都指向当前分支的最后一次信息（commit或者pull），通过移动HEAD可以切换分支；如果当前分支在master，那么HEAD信息可以用下图表示：</p>
+<p><img src="http://7xt4h7.com1.z0.glb.clouddn.com/HEAD.jpg" alt="HEAD"></p>
+<p>查看当前的HEAD信息：</p>
+<pre><code>$ cat .git/HEAD
+</code></pre><hr>
+<h3 id="Diff命令：比较差异"><a href="#Diff命令：比较差异" class="headerlink" title="Diff命令：比较差异"></a>Diff命令：比较差异</h3><p>显示工作目录与暂存区文件的差异（修改之后还没有暂存起来的变化内容），不加参数：</p>
+<pre><code>$ git diff
+(show diff of unstaged changes.)
+</code></pre><p>显示暂存区与上次提交的git仓库之间的差异：</p>
+<pre><code>$ git diff --cached
+(show diff of staged changes. Git 1.6.1 及更高版本还允许使用 $ git diff --staged，效果是相同的).
+</code></pre><p>比较工作区和上次提交之间所有的改动：</p>
+<pre><code>$ git diff HEAD
+        $ git diff HEAD^  比较上次提交，HEAD^也就是HEAD~1
+        $ git diff HEAD~2 比较上2次提交
+（show diff of all staged or unstated changes.）
+</code></pre><p>使用图形工具显示文件之间的差异：</p>
+<pre><code>git difftool
+</code></pre><p>列出文件列表，显示差异：</p>
+<pre><code>git diff --stat
+</code></pre><p>比如，获得两个版本间所有变更的文件列表：</p>
+<pre><code>git diff --name-status HEAD~2 HEAD~3
+</code></pre><p>只对比给定的文件</p>
+<pre><code>git diff -- filename    
+</code></pre><blockquote>
+<p>历史提交对比可用下列命令</p>
+</blockquote>
+<p>比较当前工作目录与指定版本改动：</p>
+<pre><code>$ git diff &lt;version-tag&gt;      
+</code></pre><p>跟log命令一样，diff也可以加上<code>--stat</code>参数来简化输出：</p>
+<pre><code>$ git diff &lt;version-tag&gt; --stat
+</code></pre><p>比较两次提交版本（或者两个分支）的内容改动：</p>
+<pre><code>$ git diff &lt;version-tag-1&gt; &lt;version-tag-2&gt; 
+</code></pre><p>等价于</p>
+<pre><code>$ git diff &lt;version-tag-1&gt;..&lt;version-tag-2&gt; 
+</code></pre><p>如果省略任意一个<code>&lt;version-tag&gt;</code>，默认将使用<code>HEAD</code>代替。其中，<code>&lt;version-tag&gt;</code>可以是简写的commit哈希值，也可是是<code>HEAD</code>。其中<code>HEAD</code>代表最后一次提交，<code>HEAD^</code>代表最后一次提交的父提交，<code>HEAD~1</code>等价于<code>HEAD^</code>,<code>HEAD~2</code>为倒数第二次提交，以此类推。</p>
+<hr>
+<h3 id="GIT分支：可以很方便的创建新分支，在新分支上解决问题，完成测试后将新分支合并到master分支"><a href="#GIT分支：可以很方便的创建新分支，在新分支上解决问题，完成测试后将新分支合并到master分支" class="headerlink" title="GIT分支：可以很方便的创建新分支，在新分支上解决问题，完成测试后将新分支合并到master分支"></a>GIT分支：可以很方便的创建新分支，在新分支上解决问题，完成测试后将新分支合并到master分支</h3><p><img src="http://7xt4h7.com1.z0.glb.clouddn.com/branch.png" alt=""></p>
+<p>查看当前分支：（当前分支默认为 <code>master</code> 分支）</p>
+<pre><code>$ git branch
+</code></pre><p>查看本地和远程的所有分支：</p>
+<pre><code>$ git branch -a
+</code></pre><p>查看各个分支最后一个提交对象的信息：</p>
+<pre><code>$ git branch -v
+</code></pre><p>创建一个名为“testing”的新分支：</p>
+<pre><code>$ git branch &lt;branch-name|testing&gt;
+</code></pre><p>切换到“testing”分支(创建完成后，当前所在分支为 <code>master</code> 分支，当前分支一般会有 * 标示)：</p>
+<pre><code>$ git checkout testing
+</code></pre><p>新建并切换到新分支（和以上两个命令的效果相同）：</p>
+<pre><code>$ git checkout -b &lt;branch-name&gt;
+</code></pre><p>这条命令相当于执行下面这两条命令：</p>
+<pre><code>$ git branch &lt;new-branch&gt;
+$ git checkout &lt;new-branch&gt;
+</code></pre><p>从A分支创建并切换到B分支，可以这样写（如果不写<code>&lt;branch-A&gt;</code>则默认从当前分支创建并切换到B分支）：</p>
+<pre><code>$ git branch -b &lt;branch-B&gt; &lt;branch-A&gt;
+</code></pre><p>删除hotfix分支：（如果该分支还未被合并则会提示错误，因为这样会丢失数据）</p>
+<pre><code>$ git branch -d hotfix
+</code></pre><p>强制删除hotfix分支：（强制删除，不会提示错误）</p>
+<pre><code>$ git branch -D hotfix
+</code></pre><p>推送本地分支到远程分支：</p>
+<pre><code>$ git push origin &lt;local-branch&gt;:&lt;remote-branch&gt;
+</code></pre><p>其中，<code>&lt;local-branch&gt;</code>为本地分支，<code>&lt;remote-branch&gt;</code>为远程分支，若远程分支不存在则会自动创建；<br>类似，如果<code>&lt;local-branch&gt;</code>留空，效果则是删除远程<code>&lt;remote-branch&gt;</code>分支，命令如下：</p>
+<pre><code>git push origin :&lt;remote-branch&gt;
+</code></pre><p>切换到远程分支：</p>
+<pre><code>$ git checkout remotes/origin/&lt;branch-name&gt;
+</code></pre><blockquote>
+<p>合并分支</p>
+</blockquote>
+<p>把<code>&lt;branch&gt;</code>分支的代码合并到<code>master</code>分支：（需要先切换到<code>master</code>分支，再执行merge）</p>
+<pre><code>$ git checkout master
+$ git merge &lt;branch&gt;
+</code></pre><p>合并代码冲突：当合并代码时经常会出现冲突，也可能出现在从远程仓库pull仓库时。可先用 $ git status 检查冲突状态，解决问题（比如使用AndroidStudio的Compare试图进行对比分析）后再合并，比如：</p>
+<pre><code>&lt;manifest&gt;
+    &lt;application&gt;
+        android:label=&quot;demo&quot;
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+        android:icon=&quot;@drawable/app_icon&quot;
+=======
+        android:theme=&quot;@style/AppTheme&quot;
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; [remote-branch]
+    &lt;/application&gt;
+&lt;/manifest&gt;
+</code></pre><p>注意：<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>与<code>=======</code>中间的内容是当前用户工作目录的修改，而<code>=======</code>与<code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>中间内容是远程分支[remote-branch]别人提交的修改</p>
+<p>查看已经与当前分支合并的分支：（已经合并的查出来后可以删掉）</p>
+<pre><code>$ git branch --merge
+</code></pre><p>查看未与当前分支合并的分支：</p>
+<pre><code>$ git branch --no-merged
+</code></pre><p><code>rebase</code>也是合并命令，<code>rebase</code>和merge的区别是，合并后节点信息不一样，如下图所示：</p>
+<p><img src="http://7xt4h7.com1.z0.glb.clouddn.com/merge&amp;rebase.png" alt="merge&amp;rebase"></p>
+<p>同步远程服务器数据到本地：</p>
+<pre><code>$ git fetch origin
+</code></pre><p>从新添加的远程仓库下载数据：</p>
+<pre><code>$ git remote add teamone git://git.team1.ourcompany.com
+$ git fetch teamone
+</code></pre><p>分化一个新的分支：(使用这个命令会从服务器上下载master最新的版本，所以如果当前本地版本不是最新的，新的分支和本地分支会不同)</p>
+<pre><code>$ git checkout -b test1 origin/master
+</code></pre><p>假如你用这个新的分支进行git push，并且通过了合并，那么会在远程仓库建立一个新的同名分支，删除该分支：</p>
+<pre><code>$ git push origin :test1
+</code></pre><hr>
+<h3 id="衍合（这个比较高级）"><a href="#衍合（这个比较高级）" class="headerlink" title="衍合（这个比较高级）"></a>衍合（这个比较高级）</h3><p>根据当前分支（也就是要进行衍合的分支test1）后续的历次提交对象（这里只有一个 C3），生成一系列文件补丁，然后以主干分支<code>master</code>最后一个提交对象（C4）为新的出发点，逐个应用之前准备好的补丁文件，最后会生成一个新的合并提交对象（C3’），从而改写 test1 的提交历史，使它成为<code>master</code>分支的直接下游：</p>
+<p><img src="http://7xt4h7.com1.z0.glb.clouddn.com/%E8%A1%8D%E5%90%88%E4%B8%80.png" alt=""></p>
+<p>分支的衍合：将test1分支衍合到<code>master</code>主分支</p>
+<pre><code>$ git checkout test1
+$ git rebase master
+</code></pre><p>另一种方法，直接衍合，不用再先切换到test1</p>
+<pre><code>$ git rebase master test1
+</code></pre><p><img src="http://7xt4h7.com1.z0.glb.clouddn.com/%E8%A1%8D%E5%90%88%E4%BA%8C.png" alt=""></p>
+<p>快进master分支</p>
+<pre><code>$ git checkout master
+$ git merge client
+</code></pre><p><img src="http://7xt4h7.com1.z0.glb.clouddn.com/%E8%A1%8D%E5%90%88%E4%B8%89.png" alt=""></p>
+<p>注意衍合：一旦分支中的提交对象发布到公共仓库，就千万不要对该分支进行衍合操作。</p>
+<hr>
+<h3 id="版本回退（reset）"><a href="#版本回退（reset）" class="headerlink" title="版本回退（reset）"></a>版本回退（reset）</h3><p>一般在版本回退之前会先用 <code>$ git status</code> 命令查看当前状态：</p>
+<pre><code>$ git status
+</code></pre><p>后退操作reset：（回档某个文件，比如文件<filename>；其中<code>HEAD</code>信息可通过 <code>$ git log</code>命令查看）</filename></p>
+<pre><code>$ git reset HEAD &lt;filename&gt;
+</code></pre><hr>
+<h3 id="储藏（Stash）"><a href="#储藏（Stash）" class="headerlink" title="储藏（Stash）"></a>储藏（Stash）</h3><p>为完成一项紧急需求需要切换到其他分支，而你正在做的工作处于比较杂乱的状态，此时就可以储藏，使用命令：</p>
+<pre><code>$ git stash
+</code></pre><p>查看所有储藏：</p>
+<pre><code>$ git stash list
+</code></pre><p>重新应用指定储藏：（如不指定 stash@{o} ，则默认应用最近stash）</p>
+<pre><code>$ git stash apply stash@{o}
+</code></pre><p>删除指定储藏：</p>
+<pre><code>$ git stash drop stash@{o}
+</code></pre><hr>
+<h3 id="未完待续，此篇博客会长期更新补充-o"><a href="#未完待续，此篇博客会长期更新补充-o" class="headerlink" title="未完待续，此篇博客会长期更新补充(^o^)/~"></a>未完待续，此篇博客会长期更新补充(^o^)/~</h3>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/原创博客/" rel="tag"># 原创博客</a>
+          
+            <a href="/tags/Git/" rel="tag"># Git</a>
+          
+            <a href="/tags/Github/" rel="tag"># Github</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/04/Buffer与Cache区别/" rel="next" title="摘录：Buffer与Cache区别">
+                <i class="fa fa-chevron-left"></i> 摘录：Buffer与Cache区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/06/04/Volley源码分析/" rel="prev" title="网络库Volley源码解析：原理与实现">
+                网络库Volley源码解析：原理与实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="布鲁克林一棵树" />
+          <p class="site-author-name" itemprop="name">布鲁克林一棵树</p>
+           
+              <p class="site-description motion-element" itemprop="description">我是集市里的拾荒者，不看路人，不换爱人！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">博客</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="mailto:wondertwo1@163.com" target="_blank" title="邮箱 wondertwo1@163.com">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  邮箱 wondertwo1@163.com
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wondertwo" target="_blank" title="布鲁克林一棵树—>GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  布鲁克林一棵树—>GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/5182488533" target="_blank" title="布鲁克林一棵树—>微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  布鲁克林一棵树—>微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/wondertwo/" target="_blank" title="布鲁克林一棵树—>博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  布鲁克林一棵树—>博客园
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/8f34ca2bf35e" target="_blank" title="布鲁克林一棵树—>简书">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  布鲁克林一棵树—>简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础概念Repositiry"><span class="nav-number">1.</span> <span class="nav-text">基础概念Repositiry</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置用户信息（config命令）"><span class="nav-number">2.</span> <span class="nav-text">配置用户信息（config命令）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提交（commit）推送（push）与拉取（pull）"><span class="nav-number">3.</span> <span class="nav-text">提交（commit）推送（push）与拉取（pull）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加与克隆远程仓库"><span class="nav-number">4.</span> <span class="nav-text">添加与克隆远程仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#状态（status）和日志（log）"><span class="nav-number">5.</span> <span class="nav-text">状态（status）和日志（log）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看HEAD信息"><span class="nav-number">6.</span> <span class="nav-text">查看HEAD信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Diff命令：比较差异"><span class="nav-number">7.</span> <span class="nav-text">Diff命令：比较差异</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GIT分支：可以很方便的创建新分支，在新分支上解决问题，完成测试后将新分支合并到master分支"><span class="nav-number">8.</span> <span class="nav-text">GIT分支：可以很方便的创建新分支，在新分支上解决问题，完成测试后将新分支合并到master分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#衍合（这个比较高级）"><span class="nav-number">9.</span> <span class="nav-text">衍合（这个比较高级）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#版本回退（reset）"><span class="nav-number">10.</span> <span class="nav-text">版本回退（reset）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#储藏（Stash）"><span class="nav-number">11.</span> <span class="nav-text">储藏（Stash）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#未完待续，此篇博客会长期更新补充-o"><span class="nav-number">12.</span> <span class="nav-text">未完待续，此篇博客会长期更新补充(^o^)/~</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">布鲁克林一棵树</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

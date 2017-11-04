@@ -1,0 +1,874 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,原创博客,Retrofit2,HTTP," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="0X00        写在前面
+相信做过Android网络请求的同学都绕不开Volley，Retrofit，OkHttp这几座大山，至于他们的前世姻缘以及孰优孰劣，不在本博客的讨论范围。如题，这篇博客主要介绍一个小白（其实就是我自己）的Retrofit2进阶之路，会结合一个开发实例介绍5节内容：
+
+Retrofit2 HTTP请求方法注解的字段说明
+Call&amp;lt;T&amp;gt;响应结果的处理问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Retrofit2使用要点梳理：小白进阶回忆录">
+<meta property="og:url" content="http://yoursite.com/2017/02/04/Retrofit进阶回忆录/index.html">
+<meta property="og:site_name" content="WONDER'TWO">
+<meta property="og:description" content="0X00        写在前面
+相信做过Android网络请求的同学都绕不开Volley，Retrofit，OkHttp这几座大山，至于他们的前世姻缘以及孰优孰劣，不在本博客的讨论范围。如题，这篇博客主要介绍一个小白（其实就是我自己）的Retrofit2进阶之路，会结合一个开发实例介绍5节内容：
+
+Retrofit2 HTTP请求方法注解的字段说明
+Call&amp;lt;T&amp;gt;响应结果的处理问题">
+<meta property="og:image" content="http://7xt4h7.com1.z0.glb.clouddn.com/retrofit2-annotation-paramater.png">
+<meta property="og:updated_time" content="2017-03-05T15:17:29.126Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Retrofit2使用要点梳理：小白进阶回忆录">
+<meta name="twitter:description" content="0X00        写在前面
+相信做过Android网络请求的同学都绕不开Volley，Retrofit，OkHttp这几座大山，至于他们的前世姻缘以及孰优孰劣，不在本博客的讨论范围。如题，这篇博客主要介绍一个小白（其实就是我自己）的Retrofit2进阶之路，会结合一个开发实例介绍5节内容：
+
+Retrofit2 HTTP请求方法注解的字段说明
+Call&amp;lt;T&amp;gt;响应结果的处理问题">
+<meta name="twitter:image" content="http://7xt4h7.com1.z0.glb.clouddn.com/retrofit2-annotation-paramater.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'WonderTwo[@布鲁克林一棵树]'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/02/04/Retrofit进阶回忆录/"/>
+
+
+
+
+
+  <title> Retrofit2使用要点梳理：小白进阶回忆录 | WONDER'TWO </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0af291142256bedaa2172682f765d1c7";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WONDER'TWO</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">好看的皮囊千篇一律，有趣的人格万里挑一！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            博客首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            博客归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            文章标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            博客分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于博主
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/04/Retrofit进阶回忆录/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="布鲁克林一棵树">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="WONDER'TWO">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="WONDER'TWO" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Retrofit2使用要点梳理：小白进阶回忆录
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-04T22:12:47+08:00">
+                2017-02-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/安卓开发相关/" itemprop="url" rel="index">
+                    <span itemprop="name">安卓开发相关</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="0X00-写在前面"><a href="#0X00-写在前面" class="headerlink" title="0X00        写在前面"></a>0X00        写在前面</h2><hr>
+<p>相信做过Android网络请求的同学都绕不开Volley，Retrofit，OkHttp这几座大山，至于他们的前世姻缘以及孰优孰劣，不在本博客的讨论范围。如题，这篇博客主要介绍一个小白（其实就是我自己）的Retrofit2进阶之路，会结合一个开发实例介绍5节内容：</p>
+<ul>
+<li>Retrofit2 HTTP请求方法注解的字段说明</li>
+<li><code>Call&lt;T&gt;</code>响应结果的处理问题</li>
+<li>Retrofit2+RxJava实现开发效率最大化</li>
+<li>自定义OkHttp Interceptor实现日志输出，保存和添加Cookie</li>
+<li>自定义ResponseConverter，自定义HTTP请求注解</li>
+</ul>
+<a id="more"></a>
+<p>先来回顾一下<code>Retrofit2</code>在项目中的完整使用流程：创建Bean类 –&gt; 创建接口形式的<code>http</code>请求方法 –&gt; 通过<code>Retrofit.builder()</code>创建接口对象并调用<code>http</code>方法请求网络数据 –&gt; 在<code>RxJava</code>的<code>Observable</code>（被观察者）中异步处理请求结果！</p>
+<p>那么Retrofit2 Http 请求方法注解有那么多字段，都代表什么含义呢？添加请求头或者大文件上传的请求方法该怎么写呢？这将在第二节介绍。另外，Retrofit2基本用法的网络响应结果是一个<code>Call&lt;T&gt;</code> ，那么怎样在Android中解析<code>Call&lt;T&gt;</code> 呢？将在第二节介绍。第三节根据Retrofit2使用流程介绍了一个实践项目是怎样使用<code>Retrofit2+RxJava</code> 做网络请求。第四节和四五节是Retrofit实现一些复杂需求的必杀技，介绍了自定义OkHttp Interceptor实现日志输出，保存和添加Cookie；自定义ResponseConverter，自定义HTTP请求注解等内容。</p>
+<h2 id="0X01-Retrofit2-HTTP请求方法注解的字段说明"><a href="#0X01-Retrofit2-HTTP请求方法注解的字段说明" class="headerlink" title="0X01        Retrofit2 HTTP请求方法注解的字段说明"></a>0X01        Retrofit2 HTTP请求方法注解的字段说明</h2><hr>
+<p>从Retrofit2的官方文档来看，Retrofit2 进行网络请求的URL分为两部分：BaseURL和relativeURL。BaseURL需要以<code>/</code> 结尾， 一般不需要变化直接定义即可，当然在特殊的情况下，比如后一次网络访问URL需要从前一次访问结果中获取相关参数，那么就需要动态的操作URL，这种用法会在第五节进行介绍；relativeURL与每次请求的参数相关，所以每个request 方法都需要 http annotation 来提供请求的relativeURL，Retrofit2内置的注解有五个：<code>GET, POST, PUT, DELETE, and HEAD.</code> 这些注解在使用时涉及到哪些相关的字段呢？我从参考文献的博客中引用了一张图：</p>
+<p><img src="http://7xt4h7.com1.z0.glb.clouddn.com/retrofit2-annotation-paramater.png" alt=""></p>
+<p>可以看到，有URL请求参数，<code>Query</code>参数这些简单网络请求参数；同时还支持用<code>@Header</code>添加请求头；<code>POST</code>请求中常用<code>@FormUrlEncoded</code>提交表单，并用<code>@Field</code>定义表单域；<code>@MultiPart</code>文件上传并用<code>@Part</code>定义请求体。来看一个具体的例子（摘自Retrofit2官方文档）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public interface GitHubService &#123;</div><div class="line">  @GET(&quot;users/&#123;user&#125;/repos&quot;)</div><div class="line">  Call&lt;List&lt;Repo&gt;&gt; listRepos(@Path(&quot;user&quot;) String user);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Retrofit2把网络请求定义成接口的形式，如上是一个GET请求，<code>@Path</code>表示一个占位符，<code>@Path</code>中的变量必须与<code>@GET</code>变量中<code>{</code> 和 <code>}</code> 中间的部分一致。下面是一个POST请求，<code>@FormUrlEncoded</code>用于提交一个表单，<code>@Field</code>定义了表单的name和value。更多详细的用法详见<a href="http://square.github.io/retrofit/" target="_blank" rel="external">Retrofit2官方文档API Declaration</a> ，另外<a href="http://www.loongwind.com/archives/242.html" target="_blank" rel="external">Retrofit请求参数注解字段说明</a> 这篇博客介绍的比较详细可作参考：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">public interface GitHubService &#123;</div><div class="line">	@FormUrlEncoded</div><div class="line">	@POST(&quot;user/edit&quot;)</div><div class="line">	Call&lt;User&gt; updateUser(@Field(&quot;first_name&quot;) String first, @Field(&quot;last_name&quot;) String last);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="0X02-Call-lt-T-gt-响应结果的处理"><a href="#0X02-Call-lt-T-gt-响应结果的处理" class="headerlink" title="0X02        Call&lt;T&gt; 响应结果的处理"></a>0X02        <code>Call&lt;T&gt;</code> 响应结果的处理</h2><hr>
+<p>细心的你有木有发现，发现官方文档中给出的请求方法示例，返回结果都是 <code>Call&lt;List&lt;User&gt;&gt;</code> 这种形式？没错！这就是Retrofit2最原始的网络请求用法，官方文档上介绍的很简洁，可以在 <code>call&lt;T&gt;</code> 响应对象上做异步或者同步的操作，每个 <code>call&lt;T&gt;</code> 对象只能用一次，要想多次使用可以调用 <code>clone()</code> 方法来克隆出多个 <code>call</code> 对象以供更多操作使用。因为Retrofit2 是一个类型安全的Java和Android网络请求库，所以以上的操作对 Java 网络请求也是适用的。</p>
+<p>针对JVM而言，网络请求和结果处理会放在同一个线程中执行，那么在Android中，我们怎样处理请求结果对象 <code>call</code> 呢？官方文档也给出了答案，我们都知道Android中网络请求这类耗时操作都是放在工作线程（即worker thread）来执行的，然后在主线程（也即 UI thread）处理网络请求结果，自然Retrofit2也不例外，由于Retrofit2抛弃了饱受诟病的Apache HttpClient底层只依赖OkHttp3.0，网络访问层的操作都会交由OkHttp来完成，而OkHttp不仅拥有自动维护的socket连接池，减少握手次数，而且还拥有队列线程池，可以轻松写并发，同时还支持socket自动选择最好路线，并支持自动重连，OkHttp的优点远不止于此，所以Retrofit2选择用OkHttp作为网络请求执行器是一个再明智不过的决定。</p>
+<p>如果你想异步的执行网络请求，最简单的就是在Activity或者Fragment中View控件的监听器中进行网络访问，并通过<code>call.enqueue()</code>处理请求结果，并更新UI，下面是一个小demo：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">Button button = (Button) findViewById(R.id.button);</div><div class="line">button.setOnClickListener(new View.OnClickListener() &#123;</div><div class="line">  @Override</div><div class="line">  public void onClick(View view) &#123;</div><div class="line">    GitHubService gitHubService = GitHubService.retrofit.create(GitHubService.class);</div><div class="line">    final Call&lt;List&lt;Contributor&gt;&gt; call =</div><div class="line">            gitHubService.repoContributors(&quot;square&quot;, &quot;retrofit&quot;);</div><div class="line"></div><div class="line">    call.enqueue(new Callback&lt;List&lt;Contributor&gt;&gt;() &#123;</div><div class="line">        @Override</div><div class="line">        public void onResponse(Call&lt;List&lt;Contributor&gt;&gt; call, Response&lt;List&lt;Contributor&gt;&gt; response) &#123;</div><div class="line">            final TextView textView = (TextView) findViewById(R.id.textView);</div><div class="line">            textView.setText(response.body().toString());</div><div class="line">        &#125;</div><div class="line">        @Override</div><div class="line">        public void onFailure(Call&lt;List&lt;Contributor&gt;&gt; call, Throwable t) &#123;</div><div class="line">            final TextView textView = (TextView) findViewById(R.id.textView);</div><div class="line">            textView.setText(&quot;Something went wrong: &quot; + t.getMessage());</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>如果你需要在工作线程中执行网络请求，而不是在一个Activity或者一个Fragment中去执行，那么也就意味着，你可以在同一个线程中同步的去执行网络请求，使用<code>call.execute()</code>方法来处理请求结果即可，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">try &#123;</div><div class="line">  Response&lt;User&gt; response = call.execute();</div><div class="line">&#125; catch (IOException e )&#123;</div><div class="line">   // handle error</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="0X03-Retrofit2-RxJava实现开发效率最大化"><a href="#0X03-Retrofit2-RxJava实现开发效率最大化" class="headerlink" title="0X03        Retrofit2+RxJava实现开发效率最大化"></a>0X03        Retrofit2+RxJava实现开发效率最大化</h2><hr>
+<p>Retorfit是支持RxJava，Guava，Java8 等等一系列扩展的，关于RxJava这个网红我就不做介绍了，RactiveX项目对 JVM 的扩展，你可以把它当做一个超级强大的异步事件处理库，可他的NB之处远不止于此，至少做Android的都应该听过他的鼎鼎大名，不熟悉的可以去看看<a href="https://github.com/ReactiveX/RxJava/wiki" target="_blank" rel="external">RxJava Wiki</a>！！而这里<code>Retrofit2+RxJava</code>组合就可以实现开发效率的大幅提升，至于怎样提升的？对比一下你以前写的网络请求的代码量就知道了！结合一个实践项目的源码来分析，这里是请求果壳网最新的100条文章数据，返回结果为Json，首先<code>build.gradle</code> 添加依赖：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">compile &apos;io.reactivex:rxandroid:1.1.0&apos; // RxAndroid</div><div class="line">compile &apos;io.reactivex:rxjava:1.1.0&apos; // 推荐同时添加RxJava</div><div class="line">compile &apos;com.squareup.retrofit2:retrofit:2.1.0&apos; // Retrofit网络处理</div><div class="line">compile &apos;com.squareup.retrofit2:adapter-rxjava:2.1.0&apos; // Retrofit的rx解析库</div><div class="line">compile &apos;com.squareup.retrofit2:converter-gson:2.1.0&apos; // Retrofit的gson库</div><div class="line"></div><div class="line">compile &apos;com.squareup.okhttp3:okhttp:3.2.0&apos; // OkHttp3</div></pre></td></tr></table></figure>
+<p>第一步，定义服务器Json数据对应的POJO类，这里我们可以偷一下懒可以直接通过<a href="http://www.jsonschema2pojo.org/" target="_blank" rel="external">jsonschema2pojo</a> 这个网站自动生成POJO类，就不用我们手动去写了，然后copy到项目目录的bean包下。接着便是定义HTTP请求方法了，以接口的形式定义，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">// 服务器数据对应的实体类</div><div class="line">public class Guokr &#123;</div><div class="line">	// 定义序列化后的名字</div><div class="line">    public @SerializedName(&quot;ok&quot;) Boolean response_ok;</div><div class="line">	// 定义序列化后的名字</div><div class="line">    public @SerializedName(&quot;result&quot;) List&lt;GuokrResult&gt; response_results;</div><div class="line"></div><div class="line">    public static class GuokrResult &#123;</div><div class="line">        public int id;</div><div class="line">        public String title;</div><div class="line"></div><div class="line">        public String headline_img_tb; // 用于文章列表页小图</div><div class="line">        public String headline_img; // 用于文章内容页大图</div><div class="line"></div><div class="line">        public String link;</div><div class="line">        public String author;</div><div class="line">        public String summary;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// HTTP请求方法</div><div class="line">public interface GuokrService &#123;</div><div class="line"></div><div class="line">    @GET(&quot;handpick/article.json&quot;)</div><div class="line">    Observable&lt;Guokr&gt; getGuokrs(@Query(&quot;retrieve_type&quot;) String type,</div><div class="line">                                @Query(&quot;category&quot;) String category,</div><div class="line">                                @Query(&quot;limit&quot;) int limit,</div><div class="line">                                @Query(&quot;ad&quot;) int ad);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中 <code>Observable&lt;Guokr&gt;</code> 是RxJava中的被观察者，对应请求结果<code>Call&lt;T&gt;</code>。只是因为Retrofit提供了非常强大的<code>CallAdapterFactory</code> 完美兼容了<code>RxJava</code> 这个超级大网红，才导致我们平常看到的写法是这样的。第二步， 需要通过<code>Retrofit.builder()</code> 创建 <code>GuokrService</code> 接口对象，通过接口对象执行 <code>getGuokrs</code> 方法进行网络访问，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">    // 封装 GuokrService 请求</div><div class="line">    public static GuokrService getGuokrService() &#123;</div><div class="line">        if (guokrService == null) &#123;</div><div class="line">            Retrofit retrofit = new Retrofit.Builder()</div><div class="line">                    .client(mClient)</div><div class="line">                    .baseUrl(&quot;http://apis.guokr.com/&quot;)</div><div class="line">                    .addCallAdapterFactory(rxJavaCallAdapterFactory)</div><div class="line">                    .addConverterFactory(gsonConverterFactory)</div><div class="line">                    .build();</div><div class="line">            guokrService = retrofit.create(GuokrService.class);</div><div class="line">        &#125;</div><div class="line">        return guokrService;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">// 默认加载最新的100条数据</div><div class="line">subscription = RetrofitClient.getGuokrService().getGuokrs(&quot;by_since&quot;, &quot;all&quot;, 100, 1)</div><div class="line">        .subscribeOn(Schedulers.io())</div><div class="line">        .observeOn(AndroidSchedulers.mainThread())</div><div class="line">        .subscribe(new Observer&lt;Guokr&gt;() &#123;</div><div class="line">	        @Override</div><div class="line">	        public void onCompleted() &#123;</div><div class="line">		        Log.e(TAG, &quot;--------completed-------&quot;);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">			@Override</div><div class="line">			public void onError(Throwable e) &#123;</div><div class="line">				Log.e(TAG, &quot;--------error-------&quot;);</div><div class="line">                Log.e(TAG, e.getMessage());</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            @Override</div><div class="line">            public void onNext(Guokr guokr) &#123;</div><div class="line">	            if (guokr.response_ok) &#123;</div><div class="line">		            List&lt;Guokr.GuokrResult&gt; guokrResults = guokr.response_results;</div><div class="line">		            List&lt;GuokrItem&gt; guokrItems = new ArrayList&lt;&gt;(guokrResults.size());</div><div class="line">		            for (Guokr.GuokrResult result : guokrResults) &#123;</div><div class="line">			            GuokrItem item = new GuokrItem();</div><div class="line">			            item.headline_img_tb = result.headline_img_tb;</div><div class="line">                        item.title = result.title;</div><div class="line">                        item.id = result.id;</div><div class="line">                        item.headline_img = result.headline_img;</div><div class="line">                        item.summary = result.summary;</div><div class="line">                        guokrItems.add(item);</div><div class="line">                    &#125;</div><div class="line">                    mAdapter.addAll(guokrItems);</div><div class="line">                    mAdapter.notifyDataSetChanged();</div><div class="line">                &#125;)；</div></pre></td></tr></table></figure>
+<p>注意到封装 GuokrService 请求：</p>
+<ol>
+<li><code>addCallAdapterFactory(rxJavaCallAdapterFactory)</code> 方法指定使用<code>RxJava</code> 作为<code>CallAdapter</code> ，需要传入一个<code>RxJavaCallAdapterFactory</code>对象：<code>CallAdapter.Factory rxJavaCallAdapterFactory = RxJavaCallAdapterFactory.create()</code>；</li>
+<li><code>addConverterFactory(gsonConverterFactory)</code> 方法指定 <code>Gson</code> 作为解析Json数据的<code>Converter</code>：<code>Converter.Factory gsonConverterFactory = GsonConverterFactory.create()</code>；</li>
+<li><code>client(mClient)</code>方法指定网络执行器为<code>OkHttp</code> 如下创建一个默认的OkHttp对象传入即可：<code>OkHttpClient mClient = new OkHttpClient()</code>；</li>
+</ol>
+<p>而加载网络数据这个链式调用就是RxJava最大的特色，用在这里逻辑就是，被观察者<code>Observable&lt;Guokr&gt;</code>订阅观察者<code>Observer&lt;Guokr&gt;</code>，当服务器一有response，观察者就会立即处理response result。因为<code>RxJava</code>最大的亮点就是异步，可以很方便的切换当前任务所在的线程，并能对事件流进行各种Map变换，比如压合、转换、缓存等操作。这里是最基本的用法，被观察者直接把事件流订阅到观察者，中间没有做转换处理。</p>
+<p>到此网络访问就完成了，是不是很简洁？简洁就对了，那是因为太多东西Retrofit2和RxJava甚至是OkHttp都帮我们做好了！再回顾一下整个网络访问流程：创建Bean类 –&gt; 创建接口形式的<code>http</code> 请求方法 –&gt; 通过<code>Retrofit.builder()</code> 创建接口对象并调用<code>http</code> 方法请求网络数据 –&gt; 在<code>RxJava</code> 的<code>Observable</code> 中异步处理请求结果！</p>
+<h2 id="0X04-自定义OkHttp-Interceptor实现日志输出，保存和添加Cookie"><a href="#0X04-自定义OkHttp-Interceptor实现日志输出，保存和添加Cookie" class="headerlink" title="0X04        自定义OkHttp Interceptor实现日志输出，保存和添加Cookie"></a>0X04        自定义OkHttp Interceptor实现日志输出，保存和添加Cookie</h2><hr>
+<p>在Retrofit2做网络请求的第二步，我们需要通过<code>Retrofit.builder()</code>方法来创建<code>Retrofit</code>对象，其中<code>client(mClient)</code>这个方法指定一个<code>OkHttpClient</code>客户端作为请求的执行器，需要传入一个<code>OkHttpClient</code>对象作为参数，那么在这里，我们就可以进行一些OkHttp相关的操作，比如自定义<code>Interceptor</code>，通过自定义<code>Interceptor</code>可以实现网络请求日志的分级输出，可以实现保存和添加Cookie这些功能，当然，这些功能的实现都是基于OkHttp，所以要对OkHttp有一定的了解才能灵活运用。</p>
+<p><a href="http://www.jianshu.com/p/91ac13ed076d" target="_blank" rel="external">Retrofit使用指南–&gt;OkHttp配合Retrofit使用</a> 这篇博客在OkHttp配合Retrofit使用这一节，关于OkHttpClient添加<code>HttpLoggingInterceptor</code> 进行日志输出，以及如何设置SslSocketFactory做了详细的说明，有兴趣的同学可以参考！值得注意的是，如果后一次请求的URL，需要从前一次请求结果数据中获取，这时候就需要动态的改变BaseURL，也可通过自定义<code>Interceptor</code> 来实现这一需求，在BaseURL改变时，只需要<code>setHost()</code>就可以让下次请求的BaseURL改变，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">public class DynamicBaseUrlInterceptor implements Interceptor &#123;</div><div class="line">    private volatile String host;</div><div class="line"></div><div class="line">    public void setHost(String host) &#123;</div><div class="line">        this.host = host;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public Response intercept(Chain chain) throws IOException &#123;</div><div class="line">        Request originalRequest = chain.request();</div><div class="line">        if (!TextUtils.isEmpty(host)) &#123;</div><div class="line">            HttpUrl newUrl = originalRequest.url().newBuilder()</div><div class="line">                    .host(host)</div><div class="line">                    .build();</div><div class="line">            originalRequest = originalRequest.newBuilder()</div><div class="line">                    .url(newUrl)</div><div class="line">                    .build();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        return chain.proceed(originalRequest);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>那么怎样在通过OkHttp保存和添加Cookie呢？其实实现原理和上面添加日志拦截器差不多，只是添加的<code>Intercepter</code>不同而已，其实就是自定义了一个<code>Interceptor</code>接口实现类，接收和保存返回结果中的Cookie，或者添加Cookie，最后，在创建OkHttp实例的时候，传入以上<code>Interceptor</code>实现类的对象即可。<a href="http://www.jianshu.com/p/1caa92bf8079" target="_blank" rel="external">Retrofit使用OkHttp保存和添加cookie这篇博客讲的很好</a>，可以作为参考！</p>
+<p>简而言之，以上这Retorfit2些高级运用都是基于定制化OkHttp来实现的，如果想玩得很溜就必须对OkHttp了解一二，推荐看这篇博客<a href="http://www.jianshu.com/p/aad5aacd79bf" target="_blank" rel="external">OkHttp3源码分析综述</a>！最起码需要弄清楚OkHttpClient自定义Interceptor这一块内容，推荐看<a href="https://github.com/square/okhttp/wiki/Interceptors" target="_blank" rel="external">OkHttp Github Wiki –&gt; Interceptors</a>！</p>
+<h2 id="0X05-自定义ResponseConverter，自定义HTTP请求注解"><a href="#0X05-自定义ResponseConverter，自定义HTTP请求注解" class="headerlink" title="0X05        自定义ResponseConverter，自定义HTTP请求注解"></a>0X05        自定义ResponseConverter，自定义HTTP请求注解</h2><hr>
+<p>默认情况下，Retrofit会把HTTP响应体反序列化到OkHttp的<code>ResponseBody</code>中，加入Converter可以将返回的数据直接格式化成你需要的样子，Retrofit提供了如下6个Converter可以直接使用，使用前需要加上相应的Gradle依赖：</p>
+<ul>
+<li>Gson: com.squareup.retrofit2:converter-gson</li>
+<li>Jackson: com.squareup.retrofit2:converter-jackson</li>
+<li>Moshi: com.squareup.retrofit2:converter-moshi</li>
+<li>Protobuf: com.squareup.retrofit2:converter-protobuf</li>
+<li>Wire: com.squareup.retrofit2:converter-wire</li>
+<li>Simple XML: com.squareup.retrofit2:converter-simplexml</li>
+<li>Scalars (primitives, boxed, and String): com.squareup.retrofit2:converter-scalars</li>
+</ul>
+<p>在前面Retrofit2+RxJava实例中，我们指定GsonConverterFactory作为解析Json数据的Converter，当面对更复杂的需求时，仍然可以通过继承<code>Converter.Factory</code> 来自定义Converter，只需要重写以下这两个方法即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">public Converter&lt;ResponseBody, ?&gt; responseBodyConverter(Type type, Annotation[] annotations,</div><div class="line">    Retrofit retrofit) &#123;</div><div class="line">      //your own implements</div><div class="line">&#125;</div><div class="line"></div><div class="line">@Override</div><div class="line">public Converter&lt;?, RequestBody&gt; requestBodyConverter(Type type,</div><div class="line">   Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) &#123;</div><div class="line">     //your own implements</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们不妨来看看<code>GsonConverterFactory</code> 源码，果然<code>GsonConverterFactory</code> 也是继承<code>Converter.Factory</code> 来实现的，重写了<code>responseBodyConverter</code> 和 <code>requestBodyConverter</code> 这两个方法，代码只有70多行还是很简洁的，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">public final class GsonConverterFactory extends Converter.Factory &#123;</div><div class="line">  /**</div><div class="line">   * Create an instance using a default &#123;@link Gson&#125; instance for conversion. Encoding to JSON and</div><div class="line">   * decoding from JSON (when no charset is specified by a header) will use UTF-8.</div><div class="line">   */</div><div class="line">  public static GsonConverterFactory create() &#123;</div><div class="line">    return create(new Gson());</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Create an instance using &#123;@code gson&#125; for conversion. Encoding to JSON and</div><div class="line">   * decoding from JSON (when no charset is specified by a header) will use UTF-8.</div><div class="line">   */</div><div class="line">  public static GsonConverterFactory create(Gson gson) &#123;</div><div class="line">    return new GsonConverterFactory(gson);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  private final Gson gson;</div><div class="line"></div><div class="line">  private GsonConverterFactory(Gson gson) &#123;</div><div class="line">    if (gson == null) throw new NullPointerException(&quot;gson == null&quot;);</div><div class="line">    this.gson = gson;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  @Override</div><div class="line">  public Converter&lt;ResponseBody, ?&gt; responseBodyConverter(Type type, Annotation[] annotations,</div><div class="line">      Retrofit retrofit) &#123;</div><div class="line">    TypeAdapter&lt;?&gt; adapter = gson.getAdapter(TypeToken.get(type));</div><div class="line">    return new GsonResponseBodyConverter&lt;&gt;(gson, adapter);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  @Override</div><div class="line">  public Converter&lt;?, RequestBody&gt; requestBodyConverter(Type type,</div><div class="line">      Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) &#123;</div><div class="line">    TypeAdapter&lt;?&gt; adapter = gson.getAdapter(TypeToken.get(type));</div><div class="line">    return new GsonRequestBodyConverter&lt;&gt;(gson, adapter);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里需要详细解释一下<code>TypeAdapter&lt;?&gt; adapter = gson.getAdapter(TypeToken.get(type))</code> 中的<code>TypeAdapter&lt;?&gt;</code> ，<code>TypeAdapte</code>是Gson提供的自定义Json解析器，Type就是HTTP请求接口<code>GuokrService</code>中<code>getGuokrs()</code>方法返回值的泛型类型，如果返回值类型是<code>Call&lt;T&gt;</code>，那么这里的Type就是泛型类型 T ，如果返回值类型是<code>Observable&lt;List&lt;Guokr&gt;&gt;</code> ，那么Type就是<code>List&lt;Guokr&gt;</code>；关于Gson的详细用法可以参考：<a href="http://www.jianshu.com/p/3108f1e44155" target="_blank" rel="external">你真的会用Gson吗?Gson使用指南（四）</a>。</p>
+<p>我们看到<code>responseBodyConverter</code> 方法返回的是一个<code>GsonResponseBodyConverter</code> 对象，跟进去看一下<code>GsonResponseBodyConverter</code> 源码，也很简单，源码 如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">final class GsonResponseBodyConverter&lt;T&gt; implements Converter&lt;ResponseBody, T&gt; &#123;</div><div class="line">  private final Gson gson;</div><div class="line">  private final TypeAdapter&lt;T&gt; adapter;</div><div class="line"></div><div class="line">  GsonResponseBodyConverter(Gson gson, TypeAdapter&lt;T&gt; adapter) &#123;</div><div class="line">    this.gson = gson;</div><div class="line">    this.adapter = adapter;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  @Override public T convert(ResponseBody value) throws IOException &#123;</div><div class="line">    JsonReader jsonReader = gson.newJsonReader(value.charStream());</div><div class="line">    try &#123;</div><div class="line">      return adapter.read(jsonReader);</div><div class="line">    &#125; finally &#123;</div><div class="line">      value.close();</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们看到<code>GsonResponseBodyConverter&lt;T&gt;</code> 实现了<code>Converter&lt;ResponseBody, T&gt;</code>，重写了<code>convert(ResponseBody value)</code> 方法，这就给我们提供了一个思路：自定义Converter关键一步就是要实现<code>Converter&lt;ResponseBody, T&gt;</code> 接口并且重写<code>convert(ResponseBody value)</code> 方法，具体重写的代码我就不贴出来了，可以参考<a href="http://www.jianshu.com/p/2263242fa02d" target="_blank" rel="external">如何使用Retrofit请求非Restful API</a> 这篇博客自定义Converter的做法！</p>
+<p>另外，如果需求更复杂，需要我们自定义HTTP请求方法的注解，又该怎么做呢？我们还注意到<code>GsonConverterFactory</code> 类的重写方法<code>responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit)</code> 中的<code>Annotation[] methodAnnotations</code> 这个参数，对的，或许你已经猜到了，这就是我们在HTTP请求接口方法中定义的注解，先看 <code>@GET</code> 注解的源码，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">/** Make a GET request. */</div><div class="line">@Documented</div><div class="line">@Target(METHOD)</div><div class="line">@Retention(RUNTIME)</div><div class="line">public @interface GET &#123;</div><div class="line">  String value() default &quot;&quot;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>那我们自定义注解的思路也就有了，模仿上面 <code>@GET</code> 注解写一个 <code>@WONDERTWO</code> 注解即可。这里我点到即止，主要是提供一种思路，具体实现仍然可以参考上面提到的 <a href="http://www.jianshu.com/p/2263242fa02d" target="_blank" rel="external">如何使用Retrofit请求非Restful API</a> 这篇博客自定义HTTP请求注解的做法！</p>
+<h2 id="0X06-写在后面"><a href="#0X06-写在后面" class="headerlink" title="0X06        写在后面"></a>0X06        写在后面</h2><hr>
+<p>有一个结论说的是在网络上，只有 1% 的用户贡献了内容，10% 的用户比较活跃，会评论和点赞，剩下的都是网络透明人，他们只是默默地在看，既不贡献内容，也不点赞。这篇文章希望能让你成为网络上贡献内容的 TOP 1%。如果暂时做不到，那就先点个赞吧，成为活跃的 10%。</p>
+<blockquote>
+<p>参考文献</p>
+</blockquote>
+<ol>
+<li><a href="http://square.github.io/retrofit/" target="_blank" rel="external">Retrofit官方文档</a></li>
+<li><a href="https://zeroturnaround.com/rebellabs/getting-started-with-retrofit-2/" target="_blank" rel="external">Getting started with Retrofit 2</a></li>
+<li><a href="https://guides.codepath.com/android/Consuming-APIs-with-Retrofit#retrofit-and-authentication" target="_blank" rel="external">Consuming APIs with Retrofit</a></li>
+<li><a href="https://inthecheesefactory.com/blog/retrofit-2.0/en" target="_blank" rel="external">Retrofit 2.0: The biggest update yet on the best HTTP Client Library for Android</a></li>
+<li><a href="http://www.jianshu.com/p/91ac13ed076d" target="_blank" rel="external">Retrofit使用指南</a></li>
+<li><a href="http://www.jianshu.com/p/a21abbde7ed3" target="_blank" rel="external">Square全家桶正传——Retrofit使用及配合RxJava实现最大效率开发</a></li>
+<li><a href="http://www.jianshu.com/p/1caa92bf8079" target="_blank" rel="external">Retrofit使用OkHttp保存和添加cookie</a></li>
+<li><a href="http://www.jianshu.com/p/2263242fa02d" target="_blank" rel="external">如何使用Retrofit请求非Restful API</a></li>
+<li><a href="http://www.loongwind.com/archives/242.html" target="_blank" rel="external">Retrofit请求参数注解字段说明</a></li>
+<li><a href="https://github.com/square/okhttp/wiki/Interceptors" target="_blank" rel="external">OkHttp–&gt;Interceptors</a></li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/原创博客/" rel="tag"># 原创博客</a>
+          
+            <a href="/tags/Retrofit2/" rel="tag"># Retrofit2</a>
+          
+            <a href="/tags/HTTP/" rel="tag"># HTTP</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/16/Retrofit之POST上传/" rel="next" title="Retrofit2使用要点梳理：浅析Post文件/表单上传">
+                <i class="fa fa-chevron-left"></i> Retrofit2使用要点梳理：浅析Post文件/表单上传
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/21/personal-resume-wangyao/" rel="prev" title="王尧：个人简历网页版">
+                王尧：个人简历网页版 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="布鲁克林一棵树" />
+          <p class="site-author-name" itemprop="name">布鲁克林一棵树</p>
+           
+              <p class="site-description motion-element" itemprop="description">我是集市里的拾荒者，不看路人，不换爱人！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">博客</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="mailto:wondertwo1@163.com" target="_blank" title="邮箱 wondertwo1@163.com">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  邮箱 wondertwo1@163.com
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wondertwo" target="_blank" title="布鲁克林一棵树—>GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  布鲁克林一棵树—>GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/5182488533" target="_blank" title="布鲁克林一棵树—>微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  布鲁克林一棵树—>微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/wondertwo/" target="_blank" title="布鲁克林一棵树—>博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  布鲁克林一棵树—>博客园
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/8f34ca2bf35e" target="_blank" title="布鲁克林一棵树—>简书">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  布鲁克林一棵树—>简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0X00-写在前面"><span class="nav-number">1.</span> <span class="nav-text">0X00        写在前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0X01-Retrofit2-HTTP请求方法注解的字段说明"><span class="nav-number">2.</span> <span class="nav-text">0X01        Retrofit2 HTTP请求方法注解的字段说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0X02-Call-lt-T-gt-响应结果的处理"><span class="nav-number">3.</span> <span class="nav-text">0X02        Call<T> 响应结果的处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0X03-Retrofit2-RxJava实现开发效率最大化"><span class="nav-number">4.</span> <span class="nav-text">0X03        Retrofit2+RxJava实现开发效率最大化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0X04-自定义OkHttp-Interceptor实现日志输出，保存和添加Cookie"><span class="nav-number">5.</span> <span class="nav-text">0X04        自定义OkHttp Interceptor实现日志输出，保存和添加Cookie</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0X05-自定义ResponseConverter，自定义HTTP请求注解"><span class="nav-number">6.</span> <span class="nav-text">0X05        自定义ResponseConverter，自定义HTTP请求注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0X06-写在后面"><span class="nav-number">7.</span> <span class="nav-text">0X06        写在后面</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">布鲁克林一棵树</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

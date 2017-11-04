@@ -1,0 +1,863 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,二叉树," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="009 json与xml区别参考资料：
+
+XML和JSON区别
+iOS开发—XML/JSON数据解析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2016秋招笔试面试问题收集">
+<meta property="og:url" content="http://yoursite.com/2016/09/18/16秋招面试问题收集/index.html">
+<meta property="og:site_name" content="WONDER'TWO">
+<meta property="og:description" content="009 json与xml区别参考资料：
+
+XML和JSON区别
+iOS开发—XML/JSON数据解析">
+<meta property="og:updated_time" content="2017-05-12T08:08:09.625Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2016秋招笔试面试问题收集">
+<meta name="twitter:description" content="009 json与xml区别参考资料：
+
+XML和JSON区别
+iOS开发—XML/JSON数据解析">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'WonderTwo[@布鲁克林一棵树]'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/09/18/16秋招面试问题收集/"/>
+
+
+
+
+
+  <title> 2016秋招笔试面试问题收集 | WONDER'TWO </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0af291142256bedaa2172682f765d1c7";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WONDER'TWO</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">好看的皮囊千篇一律，有趣的人格万里挑一！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            博客首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            博客归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            文章标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            博客分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于博主
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/18/16秋招面试问题收集/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="布鲁克林一棵树">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="WONDER'TWO">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="WONDER'TWO" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                2016秋招笔试面试问题收集
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-18T11:11:11+08:00">
+                2016-09-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/安卓开发相关/" itemprop="url" rel="index">
+                    <span itemprop="name">安卓开发相关</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/安卓开发相关/JAVA编程相关/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA编程相关</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/安卓开发相关/JAVA编程相关/数据结构与算法/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/安卓开发相关/JAVA编程相关/数据结构与算法/计算机基础知识/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机基础知识</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="009-json与xml区别"><a href="#009-json与xml区别" class="headerlink" title="009 json与xml区别"></a>009 json与xml区别</h2><p>参考资料：</p>
+<ul>
+<li><a href="http://www.jianshu.com/p/b0fa6eae87a4" target="_blank" rel="external">XML和JSON区别</a></li>
+<li><a href="http://www.jianshu.com/p/a54d367adb2a" target="_blank" rel="external">iOS开发—XML/JSON数据解析</a></li>
+</ul>
+<a id="more"></a>
+<h2 id="008-处理OJ（online-judge）标准输入输出（Java）"><a href="#008-处理OJ（online-judge）标准输入输出（Java）" class="headerlink" title="008 处理OJ（online judge）标准输入输出（Java）"></a>008 处理OJ（online judge）标准输入输出（Java）</h2><p>参考文献：</p>
+<ul>
+<li><a href="http://blog.csdn.net/shijiebei2009/article/details/17305223" target="_blank" rel="external">OJ平台Java处理标准输入输出</a></li>
+</ul>
+<h2 id="007-HashMap与HashTable区别"><a href="#007-HashMap与HashTable区别" class="headerlink" title="007 HashMap与HashTable区别"></a>007 HashMap与HashTable区别</h2><p>参考文献：</p>
+<ol>
+<li><a href="http://www.cnblogs.com/devinzhang/archive/2012/01/13/2321481.html" target="_blank" rel="external">Java的HashMap和HashTable</a></li>
+<li><a href="http://blog.csdn.net/zhangerqing/article/details/8193118" target="_blank" rel="external">Java之美从菜鸟到高手演变之HashMap与HashTable</a></li>
+</ol>
+<h2 id="006-时间复杂度为-O-nlogn-几种排序算法"><a href="#006-时间复杂度为-O-nlogn-几种排序算法" class="headerlink" title="006 时间复杂度为 O(nlogn) 几种排序算法"></a>006 时间复杂度为 <code>O(nlogn)</code> 几种排序算法</h2><p><strong>快排，堆排，归并，时间复杂度为 <code>O(nlogn)</code></strong>  补充：冒泡，直插，选择，时间复杂度为 <code>O(n^2)</code><a href="https://github.com/wondertwo/algorithm-learning/blob/master/algorithm-learning/EightSort/src/me/wondertwo/eight-sort-algorithm.md" target="_blank" rel="external">具体算法实现参考我的GitHhub</a></p>
+<h2 id="005-JVM内存模型与垃圾回收（GC）"><a href="#005-JVM内存模型与垃圾回收（GC）" class="headerlink" title="005 JVM内存模型与垃圾回收（GC）"></a>005 JVM内存模型与垃圾回收（GC）</h2><p>参考文献</p>
+<ol>
+<li><a href="http://jayfeng.com/2016/03/11/%E7%90%86%E8%A7%A3Java%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/" target="_blank" rel="external">理解Java垃圾回收机制</a></li>
+<li><a href="http://www.jianshu.com/p/9546d21376ed" target="_blank" rel="external">Android之内存管理及优化-干货</a></li>
+<li><a href="http://www.jianshu.com/p/7ebbe102c1ae" target="_blank" rel="external">深入理解JVM（1） : Java内存区域划分</a></li>
+<li><a href="http://www.importnew.com/19946.html" target="_blank" rel="external">深入Java虚拟机（1）：Java内存区域与内存溢出</a></li>
+</ol>
+<h2 id="004-AsyncTask使用场景，设计缺陷，解决方案"><a href="#004-AsyncTask使用场景，设计缺陷，解决方案" class="headerlink" title="004 AsyncTask使用场景，设计缺陷，解决方案"></a>004 AsyncTask使用场景，设计缺陷，解决方案</h2><p>设计缺陷：主要存在于两个方面</p>
+<ul>
+<li><p><strong>第一，AsyncTask执行周期问题</strong>，当在Activity或者Fragment中调用task.execute()方法后，AsyncTask会持有当前context的引用，一旦Activity销毁或者重建（比如，横屏竖屏切换时Activity重建这一场景），就会造成当前AsyncTask后台正在执行的耗时任务出现异常，最常见的就是执行网络请求的请求结果丢失，如果希望吧请求结果更新到主线程UI中，那么onPostExecute()会抛出空指针异常，轻则界面出现卡顿，重则导致内存泄漏直接CRASH。与此同时，如果想要取消正在执行的任务，onCancel()方法也会失去作用。</p>
+</li>
+<li><p><strong>第二，AsyncTask串行与并行问题</strong>，在Android 1.6之前第一版的AsyncTask任务是串行调度的。由于串行执行任务，AsyncTask在很多场景，比如需要高并发网络访问的情况下（比如，异步加载图片瀑布流，需要高并发网络请求同时加载多张图片）不能很好的处理异步任务。第二个版本的AsyncTask从Android 1.6到Android 2.3，Android团队决定让AsyncTask并行调度，但是又出现了很多问题，比如多线程并发访问网络，网络带宽是固定的，如果并发量过大则会导致线程间的带宽的竞争加剧，这样的结果就是只有一小部分线程得以执行而其他大部分线程都会被阻塞。从Android 3.0到现在是AsyncTask的第三个版本，Android团队又把AsyncTask改成了串行调度。当然这一次并没有完全废弃掉AsyncTask并行操作，如果你面对的是高并发的需求，完全可以通过设置executeOnExecutor(executor)来实现AsyncTask并行操作。</p>
+</li>
+</ul>
+<p>解决方案：</p>
+<ul>
+<li><strong>取长补短，借力优秀的第三方开源框架！</strong> 比如事件总线EventBus，新秀网红RxJava等优秀的开源框架就可以很好的解决AsyncTask的缺陷。</li>
+</ul>
+<p>参考文献：</p>
+<ol>
+<li><a href="http://www.open-open.com/lib/view/open1434802647364.html" target="_blank" rel="external">Android开发者：你真的会用AsyncTask吗？</a></li>
+<li><a href="http://blog.csdn.net/boyupeng/article/details/49001215" target="_blank" rel="external">AsyncTask 使用和缺陷</a></li>
+<li><a href="http://www.ithtw.com/2394.html" target="_blank" rel="external">Observable取代AsyncTask和AsyncTaskLoader</a></li>
+</ol>
+<h2 id="003-Android推送服务，各方案比较"><a href="#003-Android推送服务，各方案比较" class="headerlink" title="003 Android推送服务，各方案比较"></a>003 Android推送服务，各方案比较</h2><p>自己实现推送的三种思路</p>
+<p><strong>（1）短连接；（2）SMS短信拦截；（3）长连接</strong></p>
+<p>合理选用第三方推送服务</p>
+<p><strong>第三方推送（极光推送等），BAT厂商推送（友盟推送（阿里），信鸽推送（腾讯），百度推送（百度）），手机ROM厂商推送（小米推送，华为推送）</strong></p>
+<p>参考文献</p>
+<ol>
+<li><a href="http://www.jianshu.com/p/584707554ed7" target="_blank" rel="external">Android推送技术研究</a></li>
+<li><a href="http://www.jianshu.com/p/3e51138c1fad" target="_blank" rel="external">Android开发之极光推送的集成</a></li>
+</ol>
+<h2 id="002-层序遍历二叉树，用队列实现"><a href="#002-层序遍历二叉树，用队列实现" class="headerlink" title="002 层序遍历二叉树，用队列实现"></a>002 层序遍历二叉树，用队列实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> BinaryTreeNode <span class="title">levelTravel</span><span class="params">(BinaryTreeNode head)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (head == <span class="keyword">null</span>) <span class="keyword">return</span>;</div><div class="line">    </div><div class="line">    Queue&lt;BinaryTreeNode&gt; queue = <span class="keyword">new</span> Queue&lt;&gt;();</div><div class="line">    queue.add(head);</div><div class="line"></div><div class="line">    <span class="keyword">while</span> (!queue.isEmpty()) &#123;</div><div class="line">        BinaryTreeNode node = queue.poll();</div><div class="line">        System.out.print(node.value);</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> (node.left != <span class="keyword">null</span>) queue.add(node.left);</div><div class="line">        <span class="keyword">if</span> (node.right != <span class="keyword">null</span>) queue.add(node.right);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> head;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="001-反转二叉树（递归-非递归实现）"><a href="#001-反转二叉树（递归-非递归实现）" class="headerlink" title="001 反转二叉树（递归/非递归实现）"></a>001 反转二叉树（递归/非递归实现）</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//二叉树模型</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BinaryTreeNode</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> value;</div><div class="line">    BinaryTreeNode left;</div><div class="line">    BinaryTreeNode right;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//递归实现</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">invert</span><span class="params">(BinaryTreeNode head)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (head == <span class="keyword">null</span>) <span class="keyword">return</span>;</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> (head.left != <span class="keyword">null</span>) &#123;</div><div class="line">        invert(head.left); <span class="comment">//递归左子树</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (head.right != <span class="keyword">null</span>) &#123;</div><div class="line">        invert(head.right); <span class="comment">//递归右子树</span></div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">//交换左右节点位置</span></div><div class="line">    BinaryTreeNode node = head.left;</div><div class="line">    head.left = head.right;</div><div class="line">    head.right = node;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//非递归，Stack实现</span></div><div class="line"><span class="function"><span class="keyword">public</span> BinaryTreeNode <span class="title">invert</span><span class="params">(BinaryTreeNode head)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (head == <span class="keyword">null</span>) <span class="keyword">return</span>;</div><div class="line">    </div><div class="line">    Stack&lt;BinaryTreeNode&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</div><div class="line">    stack.push(head);</div><div class="line">    </div><div class="line">    <span class="keyword">while</span> (!stack.isEmpty()) &#123;</div><div class="line">        BinaryTreeNode current = stack.pop();</div><div class="line">        <span class="comment">//交换node节点左右子节点</span></div><div class="line">        BinaryTreeNode temp = current.left;</div><div class="line">        current.left = current.right;</div><div class="line">        current.right = temp;</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> (current.left != <span class="keyword">null</span>) stack.push(current.left);</div><div class="line">        <span class="keyword">if</span> (current.right != <span class="keyword">null</span>) stack.push(current.right);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> head;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/二叉树/" rel="tag"># 二叉树</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/24/Android高级动画三/" rel="next" title="浅析Android动画（三），自定义Interpolator与TypeEvaluator">
+                <i class="fa fa-chevron-left"></i> 浅析Android动画（三），自定义Interpolator与TypeEvaluator
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/11/走向共和人物小传/" rel="prev" title="电视剧《走向共和》人物小传">
+                电视剧《走向共和》人物小传 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="布鲁克林一棵树" />
+          <p class="site-author-name" itemprop="name">布鲁克林一棵树</p>
+           
+              <p class="site-description motion-element" itemprop="description">我是集市里的拾荒者，不看路人，不换爱人！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">博客</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="mailto:wondertwo1@163.com" target="_blank" title="邮箱 wondertwo1@163.com">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  邮箱 wondertwo1@163.com
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wondertwo" target="_blank" title="布鲁克林一棵树—>GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  布鲁克林一棵树—>GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/5182488533" target="_blank" title="布鲁克林一棵树—>微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  布鲁克林一棵树—>微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/wondertwo/" target="_blank" title="布鲁克林一棵树—>博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  布鲁克林一棵树—>博客园
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/8f34ca2bf35e" target="_blank" title="布鲁克林一棵树—>简书">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  布鲁克林一棵树—>简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#009-json与xml区别"><span class="nav-number">1.</span> <span class="nav-text">009 json与xml区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#008-处理OJ（online-judge）标准输入输出（Java）"><span class="nav-number">2.</span> <span class="nav-text">008 处理OJ（online judge）标准输入输出（Java）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#007-HashMap与HashTable区别"><span class="nav-number">3.</span> <span class="nav-text">007 HashMap与HashTable区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#006-时间复杂度为-O-nlogn-几种排序算法"><span class="nav-number">4.</span> <span class="nav-text">006 时间复杂度为 O(nlogn) 几种排序算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#005-JVM内存模型与垃圾回收（GC）"><span class="nav-number">5.</span> <span class="nav-text">005 JVM内存模型与垃圾回收（GC）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#004-AsyncTask使用场景，设计缺陷，解决方案"><span class="nav-number">6.</span> <span class="nav-text">004 AsyncTask使用场景，设计缺陷，解决方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#003-Android推送服务，各方案比较"><span class="nav-number">7.</span> <span class="nav-text">003 Android推送服务，各方案比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#002-层序遍历二叉树，用队列实现"><span class="nav-number">8.</span> <span class="nav-text">002 层序遍历二叉树，用队列实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#001-反转二叉树（递归-非递归实现）"><span class="nav-number">9.</span> <span class="nav-text">001 反转二叉树（递归/非递归实现）</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">布鲁克林一棵树</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

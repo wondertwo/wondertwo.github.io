@@ -1,0 +1,804 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="编译原理,词法分析器," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="在编译器的流水线结构中，词法分析的工作主要由词法分析器来完成，词法分析器位于编译器流水线结构中的前端部分，如下图。词法分析器的输入是源程序的字符流，通过定义的规则将源程序字符流进一步进行拆分，拆分为记号流。记号流再作为语法分析器的输入，语法分析器通过记号流来构建抽象语法树。抽象语法树再作为语义分析器（也称为类型检查器）的输入，语义分析器负责检查抽象语法树的正确性，以及检查抽象语法树是否符合源语言">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译原理笔记（二）：词法分析">
+<meta property="og:url" content="http://yoursite.com/2017/05/15/编译原理-词法分析/index.html">
+<meta property="og:site_name" content="WONDER'TWO">
+<meta property="og:description" content="在编译器的流水线结构中，词法分析的工作主要由词法分析器来完成，词法分析器位于编译器流水线结构中的前端部分，如下图。词法分析器的输入是源程序的字符流，通过定义的规则将源程序字符流进一步进行拆分，拆分为记号流。记号流再作为语法分析器的输入，语法分析器通过记号流来构建抽象语法树。抽象语法树再作为语义分析器（也称为类型检查器）的输入，语义分析器负责检查抽象语法树的正确性，以及检查抽象语法树是否符合源语言">
+<meta property="og:image" content="http://on1xkrize.bkt.clouddn.com/compiler/unit2/note2_cover.jpg">
+<meta property="og:image" content="http://on1xkrize.bkt.clouddn.com/compiler/unit2/%E7%BC%96%E8%AF%91%E5%99%A8%E5%89%8D%E7%AB%AF%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.jpg">
+<meta property="og:image" content="http://on1xkrize.bkt.clouddn.com/compiler/unit2/%E6%BA%90%E4%BB%A3%E7%A0%81-%E5%AD%97%E7%AC%A6%E6%B5%81%E7%9A%84%E8%BD%AC%E6%8D%A2.jpg">
+<meta property="og:image" content="http://on1xkrize.bkt.clouddn.com/compiler/unit2/%E7%BC%96%E7%A0%81%E8%AE%B0%E5%8F%B7%E6%B5%81%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.jpg">
+<meta property="og:image" content="http://on1xkrize.bkt.clouddn.com/compiler/unit2/%E8%BD%AC%E7%A7%BB%E5%9B%BE.jpg">
+<meta property="og:image" content="http://on1xkrize.bkt.clouddn.com/compiler/unit2/%E8%BD%AC%E7%A7%BB%E5%9B%BE%E5%AE%9E%E7%8E%B0%E7%AE%97%E6%B3%95.jpg">
+<meta property="og:image" content="http://on1xkrize.bkt.clouddn.com/compiler/unit2/%E6%A0%87%E8%AF%86%E7%AC%A6%E7%9A%84%E8%BD%AC%E7%A7%BB%E5%9B%BE.jpg">
+<meta property="og:image" content="http://on1xkrize.bkt.clouddn.com/compiler/unit2/%E5%85%B3%E9%94%AE%E5%AD%97%E8%BD%AC%E7%A7%BB%E5%9B%BE.jpg">
+<meta property="og:updated_time" content="2017-05-17T11:20:51.624Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="编译原理笔记（二）：词法分析">
+<meta name="twitter:description" content="在编译器的流水线结构中，词法分析的工作主要由词法分析器来完成，词法分析器位于编译器流水线结构中的前端部分，如下图。词法分析器的输入是源程序的字符流，通过定义的规则将源程序字符流进一步进行拆分，拆分为记号流。记号流再作为语法分析器的输入，语法分析器通过记号流来构建抽象语法树。抽象语法树再作为语义分析器（也称为类型检查器）的输入，语义分析器负责检查抽象语法树的正确性，以及检查抽象语法树是否符合源语言">
+<meta name="twitter:image" content="http://on1xkrize.bkt.clouddn.com/compiler/unit2/note2_cover.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'WonderTwo[@布鲁克林一棵树]'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/15/编译原理-词法分析/"/>
+
+
+
+
+
+  <title> 编译原理笔记（二）：词法分析 | WONDER'TWO </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0af291142256bedaa2172682f765d1c7";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WONDER'TWO</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">好看的皮囊千篇一律，有趣的人格万里挑一！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            博客首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            博客归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            文章标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            博客分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于博主
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/15/编译原理-词法分析/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="布鲁克林一棵树">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="WONDER'TWO">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="WONDER'TWO" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                编译原理笔记（二）：词法分析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-15T17:18:20+08:00">
+                2017-05-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机基础知识/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机基础知识</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://on1xkrize.bkt.clouddn.com/compiler/unit2/note2_cover.jpg" alt=""></p>
+<p>在编译器的流水线结构中，词法分析的工作主要由词法分析器来完成，词法分析器位于编译器流水线结构中的前端部分，如下图。词法分析器的输入是源程序的字符流，通过定义的规则将源程序字符流进一步进行拆分，拆分为记号流。记号流再作为语法分析器的输入，语法分析器通过记号流来构建抽象语法树。抽象语法树再作为语义分析器（也称为类型检查器）的输入，语义分析器负责检查抽象语法树的正确性，以及检查抽象语法树是否符合源语言的语法规则，输出编译器的中间表示。</p>
+<a id="more"></a>
+<p><img src="http://on1xkrize.bkt.clouddn.com/compiler/unit2/%E7%BC%96%E8%AF%91%E5%99%A8%E5%89%8D%E7%AB%AF%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.jpg" alt=""></p>
+<h2 id="词法分析的任务"><a href="#词法分析的任务" class="headerlink" title="词法分析的任务"></a>词法分析的任务</h2><p>本篇博客主要关注的是编译器流水线体系结构的前端部分——词法分析器，对于给定的字符流，按照源语言对应的关键字、标识符、操作符等进行切分。对于源码文件字符流中的空格会直接扔掉，字符流中的关键字会得以保留，源码文件中的字符串也会得以保留，特别注意源文件每行的结尾会有一个换行符，整个源文件的结尾会有一个文件结束符EOF。如下图所示。</p>
+<p><img src="http://on1xkrize.bkt.clouddn.com/compiler/unit2/%E6%BA%90%E4%BB%A3%E7%A0%81-%E5%AD%97%E7%AC%A6%E6%B5%81%E7%9A%84%E8%BD%AC%E6%8D%A2.jpg" alt=""></p>
+<p>词法分析器的主要任务是，源代码字符流到（编译器）记号流的转换。源代码字符流与所编译的源代码语言种类密切相关。如果源语言是C语言，则字符流代表的集合是一个ASCII字符集，如果源语言是Java或者C#，则字符流代表的集合是一个Unicode字符集。而输出的记号流，实际上是编译器内部所定义的一种数据结构，如下图所示，用于编码所识别出的词法单元。</p>
+<p><img src="http://on1xkrize.bkt.clouddn.com/compiler/unit2/%E7%BC%96%E7%A0%81%E8%AE%B0%E5%8F%B7%E6%B5%81%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.jpg" alt=""></p>
+<h2 id="词法分析器实现方案分类"><a href="#词法分析器实现方案分类" class="headerlink" title="词法分析器实现方案分类"></a>词法分析器实现方案分类</h2><p>发展到目前，词法分析器的实现已经很成熟了，至少有两种主流的实现方案。</p>
+<ul>
+<li>第一种是通过手动编码的方式实现，相对来说比较复杂，代码量和工作量较大。然而目前一些主流语言的词法分析器都是通过手动编码的方式实现，比如LLVM，GCC4.0之后，都是通过手动编码实现，对词法分析器的每个部分的实现细节都能有一个精准的控制，涉及的算法和数据结构都是有程序员手动书写，在正确性和效率上会更高。</li>
+<li>第二种是通过生成器来自动生成词法分析器。程序员指定词法规则的声明后，后续工作交由生成器自动生成。代码量少，可以快速迭代出词法分析器的原型，但是细节部分较难控制。</li>
+</ul>
+<h2 id="手动构建词法分析器"><a href="#手动构建词法分析器" class="headerlink" title="手动构建词法分析器"></a>手动构建词法分析器</h2><p>理解手动实现词法分析器，首先要理解转移图的概念。设想我们正在分析的语言有5种关系运算符 <code>= , &lt; , &lt;= , &gt; , &gt;= , &lt;&gt;</code> ，那我们就可以通过如下图来识别出这5种关系运算符。首先程序读入第一个字符，有三种情况；接着程序读入第二个字符，依次往下分情况进行判断。</p>
+<p><img src="http://on1xkrize.bkt.clouddn.com/compiler/unit2/%E8%BD%AC%E7%A7%BB%E5%9B%BE.jpg" alt=""></p>
+<p>通过算法实现上面的转移图，C语言实现的算法的伪代码如下。</p>
+<p><img src="http://on1xkrize.bkt.clouddn.com/compiler/unit2/%E8%BD%AC%E7%A7%BB%E5%9B%BE%E5%AE%9E%E7%8E%B0%E7%AE%97%E6%B3%95.jpg" alt=""></p>
+<p>语言中其他关键字，标识符，操作符的识别也是类似。如下是C语言标识符的转移图。C语言的标识符以字母或下划线靠头，后跟一个或多个字母、下划线、数字。</p>
+<p><img src="http://on1xkrize.bkt.clouddn.com/compiler/unit2/%E6%A0%87%E8%AF%86%E7%AC%A6%E7%9A%84%E8%BD%AC%E7%A7%BB%E5%9B%BE.jpg" alt=""></p>
+<p>在很多的语言中，标识符和关键字是有交集的。从词法分析的角度来看，关键字是标识符的一部分。所以识别关键字的转移图有两种方案，第一种，可以在识别标识符的转移图基础上进行扩展，如下图，是识别C语言中<code>if</code>关键字的转移图。其实思路就是，每次读取一个字符需要考虑三种状态：1. 关键字；2. 非关键字，但是合法字符；3.其他字符。</p>
+<p><img src="http://on1xkrize.bkt.clouddn.com/compiler/unit2/%E5%85%B3%E9%94%AE%E5%AD%97%E8%BD%AC%E7%A7%BB%E5%9B%BE.jpg" alt=""></p>
+<p>第二种识别关键字的方案是，对给定语言中的所有关键字，构建关键字组成个哈希表H，对于所有的标识符和关键字，先统一按标识符的转移图进行识别，识别完成后，进一步检查哈希表H判断其是否是关键字。通过合理的构造哈希表（完美哈希），可以在O(1)的时间内完成。</p>
+<h2 id="完美哈希"><a href="#完美哈希" class="headerlink" title="完美哈希"></a>完美哈希</h2><p>完美哈希函数是没有冲突的的哈希函数，也就是，函数 H 将 N 个 KEY 值映射到 M 个整数上，这里 M&gt;=N ，而且，对于任意的 KEY1 ，KEY2 ，H( KEY1 ) != H( KEY2 ) ，并且，如果 M = = N ，则 H 是最小完美哈希函数（Minimal Perfect Hash Function，简称MPHF）。完美哈希函数实现了完全没有冲突的映射，也就是说，任意一个关键字的映射值各不相同，最小完美哈希函数则要求映射值的数量与关键字集合的元素总数相同，也就是说实现了哈希表空间最优的效果。</p>
+<p>那么，为什么需要构造完美哈希？用关键字单链表是否可以？</p>
+<p>编译器需要有更快的速度来完成关键字识别，查找时通过哈希函数计算所得到的结果就可以直接命中或确认目标不存在，构造完美哈希花费的时间是O(1)，可以提高效率，最小完美哈希函数更是连空间都控制到与元素数量相同，是最优的一种实现方案。而链式结构的链表不支持随机访问的，而且还要操作指针，因此时间至少是线性的，效率更低。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/编译原理/" rel="tag"># 编译原理</a>
+          
+            <a href="/tags/词法分析器/" rel="tag"># 词法分析器</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/14/编译原理-编译器概念/" rel="next" title="编译原理笔记（一）：编译器基础概念">
+                <i class="fa fa-chevron-left"></i> 编译原理笔记（一）：编译器基础概念
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/16/编译原理-正则表达式/" rel="prev" title="编译原理笔记（三）：正则表达式基础">
+                编译原理笔记（三）：正则表达式基础 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="布鲁克林一棵树" />
+          <p class="site-author-name" itemprop="name">布鲁克林一棵树</p>
+           
+              <p class="site-description motion-element" itemprop="description">我是集市里的拾荒者，不看路人，不换爱人！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">博客</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="mailto:wondertwo1@163.com" target="_blank" title="邮箱 wondertwo1@163.com">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  邮箱 wondertwo1@163.com
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wondertwo" target="_blank" title="布鲁克林一棵树—>GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  布鲁克林一棵树—>GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/5182488533" target="_blank" title="布鲁克林一棵树—>微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  布鲁克林一棵树—>微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/wondertwo/" target="_blank" title="布鲁克林一棵树—>博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  布鲁克林一棵树—>博客园
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/8f34ca2bf35e" target="_blank" title="布鲁克林一棵树—>简书">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  布鲁克林一棵树—>简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#词法分析的任务"><span class="nav-number">1.</span> <span class="nav-text">词法分析的任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#词法分析器实现方案分类"><span class="nav-number">2.</span> <span class="nav-text">词法分析器实现方案分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#手动构建词法分析器"><span class="nav-number">3.</span> <span class="nav-text">手动构建词法分析器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完美哈希"><span class="nav-number">4.</span> <span class="nav-text">完美哈希</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">布鲁克林一棵树</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
