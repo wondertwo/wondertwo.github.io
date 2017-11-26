@@ -92,14 +92,14 @@
 C++语言支持“分别编译”（separate compilation）。也就是说，一个程序所有的内容可以分成不同的部分分别放在不同的.cpp文件里。.cpp文件里的东西">
 <meta property="og:type" content="article">
 <meta property="og:title" content="WONDER'TWO">
-<meta property="og:url" content="http://yoursite.com/2017/11/25/C++头文件与源文件拆分/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/11/26/C++头文件与源文件拆分/index.html">
 <meta property="og:site_name" content="WONDER'TWO">
 <meta property="og:description" content="拆分C++头文件与源文件
 一、C++编译模式通常在一个C++程序中只包含两类文件——.cpp文件和.h文件。其中.cpp文件被称作C++源文件，里面放的都是C++的源代码；而.h文件则被称作C++头文件里面放的也是C++的源代码。
 C++语言支持“分别编译”（separate compilation）。也就是说，一个程序所有的内容可以分成不同的部分分别放在不同的.cpp文件里。.cpp文件里的东西">
 <meta property="og:image" content="http://on1xkrize.bkt.clouddn.com/cpp_header_source_file_top.jpg">
 <meta property="og:image" content="http://on1xkrize.bkt.clouddn.com/cpp_herder_source_file.jpg">
-<meta property="og:updated_time" content="2017-11-25T12:59:16.658Z">
+<meta property="og:updated_time" content="2017-11-25T13:34:44.834Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WONDER'TWO">
 <meta name="twitter:description" content="拆分C++头文件与源文件
@@ -133,7 +133,7 @@ C++语言支持“分别编译”（separate compilation）。也就是说，一
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/11/25/C++头文件与源文件拆分/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/11/26/C++头文件与源文件拆分/"/>
 
 
 
@@ -288,7 +288,7 @@ C++语言支持“分别编译”（separate compilation）。也就是说，一
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/25/C++头文件与源文件拆分/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/26/C++头文件与源文件拆分/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="布鲁克林一棵树">
@@ -327,8 +327,8 @@ C++语言支持“分别编译”（separate compilation）。也就是说，一
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-25T19:27:36+08:00">
-                2017-11-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-26T14:10:45+08:00">
+                2017-11-26
               </time>
             
 
@@ -397,7 +397,7 @@ C++语言支持“分别编译”（separate compilation）。也就是说，一
 </ul>
 <h2 id="五、头文件保护"><a href="#五、头文件保护" class="headerlink" title="五、头文件保护"></a>五、头文件保护</h2><p>考虑一下。如果头文件中只包含声明语句的话，它被同一个.cpp文件包含再多次都没问题——因为声明语句的出现是不受限制的。然而，上面讨论到的头文件中的三个例外也是头文件很常用的一个用处。那么一旦一个头文件中出现了上面三个例外中的任何一个，它再被一个.cpp包含多次问题就大了。因为这三个例外中的语法元素虽然“可以定义在多个源文件中”但是“在一个源文件中只能出现一次”。设想一下：如果a.h中含有类A的定义，b.h中含有类B的定义，由于类B的定义依赖了类A，所以b.h中也#include了a.h。现在有一个源文件它同时用到了类A和类B，于是程序员在这个源文件中既把 a.h包含进来了也把b.h包含进来了。<strong>那么问题就来了：类A的定义在这个源文件中出现了两次！</strong>于是整个程序就不能通过编译了。你也许会认为这是程序员的失误——他应该知道b.h包含了a.h——但事实上他不应该知道。</p>
 <p><strong>使用”#define”配合条件编译可以很好地解决这个问题。</strong>在一个头文件中通过#define定义一个名字并且通过条件编译<code>#ifndef...#endif</code>使得编译器可以根据这个名字是否被定义再决定要不要继续编译该头文中后续内容。虽然简单但是写头文件时一定记得写进去。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> YOUR_HEADER_FILE_H</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> YOUR_HEADER_FILE_H</span></div><div class="line"></div><div class="line"><span class="comment">// Your .h Source Code</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span> !YOUR_HEADER_FILE_H</span></div></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> YOUR_HEADER_FILE_H</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> YOUR_HEADER_FILE_H</span></div><div class="line"></div><div class="line"><span class="comment">// Your .h Source Code</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// !YOUR_HEADER_FILE_H</span></span></div></pre></td></tr></table></figure>
 
       
     </div>
